@@ -1,0 +1,62 @@
+type Desk {
+  id: ID!
+  name: String!
+}
+
+input DeskCreateInput {
+  name: String!
+  roomId: ID!
+}
+
+input DeskUpdateInput {
+  name: String!
+  roomId: ID!
+}
+
+type Mutation {
+  createDesk(data: DeskCreateInput!): Desk!
+  createOffice(data: OfficeCreateInput!): Office!
+  createRoom(data: RoomCreateInput!): Room!
+  deleteDesk(id: ID!): Desk!
+  deleteOffice(id: ID!): Office!
+  deleteRoom(id: ID!): Room!
+  updateDesk(data: DeskUpdateInput!, id: ID!): Desk!
+  updateOffice(data: OfficeUpdateInput!, id: ID!): Office!
+  updateRoom(data: RoomUpdateInput!, id: ID!): Room!
+}
+
+type Office {
+  id: ID!
+  name: String!
+  rooms: [Room!]!
+}
+
+input OfficeCreateInput {
+  name: String!
+}
+
+input OfficeUpdateInput {
+  name: String!
+}
+
+type Query {
+  desks(roomId: ID!): [Desk!]!
+  offices: [Office!]!
+  rooms(officeId: ID!): [Room!]!
+}
+
+type Room {
+  desks: [Desk!]!
+  id: ID!
+  name: String!
+}
+
+input RoomCreateInput {
+  name: String!
+  officeId: ID!
+}
+
+input RoomUpdateInput {
+  name: String!
+  officeId: ID!
+}
