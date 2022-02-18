@@ -1,0 +1,69 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Game {
+  gameType: GameType!
+  id: ID!
+  name: String!
+}
+
+input GameCreateInput {
+  gameType: GameType!
+  name: String!
+}
+
+enum GameType {
+  SINGLE
+  TEAM
+}
+
+input GameUpdateInput {
+  gameType: GameType!
+  name: String!
+}
+
+type Match {
+  game: Game!
+  id: ID!
+  players: [Player!]!
+  winners: [Player!]!
+}
+
+input MatchCreateInput {
+  gameId: String!
+  name: String!
+  playerIds: [String!]!
+  winnerIds: [String!]!
+}
+
+type Mutation {
+  createGame(data: GameCreateInput!): Game!
+  createMatch(data: MatchCreateInput!): Match!
+  createPlayer(data: PlayerCreateInput!): Player!
+  deleteGame(id: ID!): Game!
+  deleteMatch(id: ID!): Match!
+  deletePlayer(id: ID!): Player!
+  updateGame(data: GameUpdateInput!, id: ID!): Game!
+  updatePlayer(data: PlayerUpdateInput!, id: ID!): Player!
+}
+
+type Player {
+  elo: Float!
+  id: ID!
+  name: String!
+}
+
+input PlayerCreateInput {
+  name: String!
+}
+
+input PlayerUpdateInput {
+  name: String!
+}
+
+type Query {
+  games: [Game!]!
+  matches: [Match!]!
+  players: [Player!]!
+}

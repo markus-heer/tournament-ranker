@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum GameType {
+  SINGLE
+  TEAM
+}
+
+model Player {
+  id String @id @default(cuid())
+
+  name String @unique
+  elo  Int    @default(1200)
+
+  matches PlayersOnMatches[]
+
+  wonMatches WinnersOnMatches[]
+}
+
+model Game {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+
+  name     String   @unique
+  gameType GameType
+
+  match Match[]
+}
+
+model Match {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+
+  game   Game   @relation(fields: [gameId], references: [id])
+  gameId String
+
+  players PlayersOnMatches[]
+
+  winners WinnersOnMatches[]
+}
+
+model PlayersOnMatches {
+  player   Player @relation(fields: [playerId], references: [id])
+  playerId String
+  match    Match  @relation(fields: [matchId], references: [id])
+  matchId  String
+
+  @@id([playerId, matchId])
+}
+
+model WinnersOnMatches {
+  player   Player @relation(fields: [playerId], references: [id])
+  playerId String
+  match    Match  @relation(fields: [matchId], references: [id])
+  matchId  String
+
+  @@id([playerId, matchId])
+}
