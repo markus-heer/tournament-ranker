@@ -5,10 +5,10 @@ import { MatchesService } from 'src/modules/matches/matches.service';
 import { PlayersModule } from 'src/modules/players/players.module';
 import { PrismaModule } from 'src/modules/prisma/prisma.module';
 
-import { MatchRankingsModule } from '../match-rankings/match-rankings.module';
+import { MatchResultsModule } from '../match-results/match-results.module';
 
 @Module({
-  imports: [PrismaModule, GamesModule, PlayersModule, MatchRankingsModule],
+  imports: [PrismaModule, GamesModule, PlayersModule, MatchResultsModule],
   providers: [MatchesService, MatchesResolver],
   exports: [MatchesService],
 })

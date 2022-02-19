@@ -4,8 +4,8 @@ import { Game } from 'src/modules/games/models/Game.model';
 import { MatchesService } from 'src/modules/matches/matches.service';
 import { Match } from 'src/modules/matches/models/Match.model';
 
-import { MatchRankingsService } from '../match-rankings/match-rankings.service';
-import { MatchRanking } from '../match-rankings/models/MatchRankings.model';
+import { MatchResultsService } from '../match-results/match-results.service';
+import { MatchResult } from '../match-results/models/MatchResults.model';
 import { MatchCreateInput } from './models/MatchCreateInput.model';
 
 @Resolver(() => Match)
@@ -13,7 +13,7 @@ export class MatchesResolver {
   constructor(
     private matchesService: MatchesService,
     private gamesService: GamesService,
-    private matchRankingsService: MatchRankingsService,
+    private matchResultsService: MatchResultsService,
   ) {}
 
   @Query(() => [Match])
@@ -36,8 +36,8 @@ export class MatchesResolver {
     return this.gamesService.findByMatchId(id);
   }
 
-  @ResolveField('matchRankings')
-  async matchRankings(@Parent() { id }: Match): Promise<MatchRanking[]> {
-    return this.matchRankingsService.findManyByMatchId(id);
+  @ResolveField('matchResults')
+  async matchResults(@Parent() { id }: Match): Promise<MatchResult[]> {
+    return this.matchResultsService.findManyByMatchId(id);
   }
 }

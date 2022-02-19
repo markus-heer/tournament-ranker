@@ -21,7 +21,7 @@ enum GameType {
 type Match {
   game: Game!
   id: ID!
-  matchRankings: [MatchRanking!]!
+  matchResults: [MatchResult!]!
 }
 
 input MatchCreateInput {
@@ -31,7 +31,7 @@ input MatchCreateInput {
   winnerIds: [String!]!
 }
 
-type MatchRanking {
+type MatchResult {
   eloChange: Float!
   id: ID!
   match: Match!
@@ -60,7 +60,7 @@ input PlayerCreateInput {
 
 type Query {
   games: [Game!]!
-  matchRankings: [MatchRanking!]!
+  matchResults: [MatchResult!]!
   matches: [Match!]!
   players: [Player!]!
 }

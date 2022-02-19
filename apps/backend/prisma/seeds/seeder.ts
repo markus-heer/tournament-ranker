@@ -11,7 +11,7 @@ export async function seedDb(prisma: PrismaClient): Promise<void> {
 }
 
 export async function clearDb(prisma: PrismaClient): Promise<void> {
-  await prisma.matchRanking.deleteMany({});
+  await prisma.matchResult.deleteMany({});
   await prisma.match.deleteMany({});
   await prisma.player.deleteMany({});
   await prisma.game.deleteMany({});

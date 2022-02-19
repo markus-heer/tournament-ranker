@@ -7,7 +7,7 @@ import { GamesModule } from 'src/modules/games/games.module';
 import { MatchesModule } from 'src/modules/matches/matches.module';
 
 import { AppController } from './app.controller';
-import { MatchRankingsModule } from './modules/match-rankings/match-rankings.module';
+import { MatchResultsModule } from './modules/match-results/match-results.module';
 import { PlayersModule } from './modules/players/players.module';
 
 @Module({
@@ -32,7 +32,7 @@ import { PlayersModule } from './modules/players/players.module';
     PlayersModule,
     GamesModule,
     MatchesModule,
-    MatchRankingsModule,
+    MatchResultsModule,
   ],
   controllers: [AppController],
   providers: [],

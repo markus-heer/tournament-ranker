@@ -25,6 +25,6 @@ export class PlayersResolver {
 
   @ResolveField('elo')
   async elo(@Parent() { id }: Player): Promise<number> {
-    return this.playersService.getElo(id);
+    return this.playersService.calculateElo(id);
   }
 }

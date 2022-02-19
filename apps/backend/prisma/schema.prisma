@@ -21,7 +21,7 @@ model Player {
   name        String @unique
   startingElo Int    @default(1200)
 
-  matchRankings MatchRanking[]
+  matchResults MatchResult[]
 }
 
 model Game {
@@ -41,10 +41,10 @@ model Match {
   game   Game   @relation(fields: [gameId], references: [id])
   gameId String
 
-  matchRankings MatchRanking[]
+  matchResults MatchResult[]
 }
 
-model MatchRanking {
+model MatchResult {
   createdAt DateTime @default(now())
   id        String   @id @default(cuid())
 

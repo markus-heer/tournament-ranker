@@ -8,7 +8,7 @@ export const matches: Prisma.MatchCreateArgs[] = [
           name: 'Dart 301',
         },
       },
-      matchRankings: {
+      matchResults: {
         createMany: {
           data: [
             {

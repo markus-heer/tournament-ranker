@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Match as MatchEntity } from '@prisma/client';
 import { Game } from 'src/modules/games/models/Game.model';
-import { MatchRanking } from 'src/modules/match-rankings/models/MatchRankings.model';
+import { MatchResult } from 'src/modules/match-results/models/MatchResults.model';
 
 @ObjectType()
 export class Match {
@@ -11,8 +11,8 @@ export class Match {
   @Field(() => Game)
   game?: Game;
 
-  @Field(() => [MatchRanking])
-  matchRankings?: MatchRanking[];
+  @Field(() => [MatchResult])
+  matchResults?: MatchResult[];
 
   constructor({ id }: MatchEntity) {
     this.id = id;

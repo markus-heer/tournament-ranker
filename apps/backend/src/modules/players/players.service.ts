@@ -3,11 +3,11 @@ import { Player } from 'src/modules/players/models/Player.model';
 import { PlayerCreateInput } from 'src/modules/players/models/PlayerCreateInput.model';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 
-import { MatchRankingsService } from '../match-rankings/match-rankings.service';
+import { MatchResultsService } from '../match-results/match-results.service';
 
 @Injectable()
 export class PlayersService {
-  constructor(private prisma: PrismaService, private matchRankingsService: MatchRankingsService) {}
+  constructor(private prisma: PrismaService, private matchResultsService: MatchResultsService) {}
 
   async findById(id: string): Promise<Player> {
     const player = await this.prisma.player.findUnique({ where: { id } });
@@ -19,9 +19,9 @@ export class PlayersService {
     return new Player(player);
   }
 
-  async findByMatchRankingId(matchRankingId: string): Promise<Player> {
+  async findByMatchResultId(matchResultId: string): Promise<Player> {
     const player = await this.prisma.player.findFirst({
-      where: { matchRankings: { some: { id: matchRankingId } } },
+      where: { matchResults: { some: { id: matchResultId } } },
     });
 
     if (!player) {
@@ -37,9 +37,9 @@ export class PlayersService {
     return players.map((player) => new Player(player));
   }
 
-  async findPlayersByMatchRankingId(matchRankingId: string): Promise<Player[]> {
+  async findPlayersByMatchResultId(matchResultId: string): Promise<Player[]> {
     const players = await this.prisma.player.findMany({
-      where: { matchRankings: { some: { id: matchRankingId } } },
+      where: { matchResults: { some: { id: matchResultId } } },
     });
 
     return players.map((player) => new Player(player));
@@ -53,11 +53,11 @@ export class PlayersService {
     return new Player(await this.prisma.player.delete({ where: { id } }));
   }
 
-  async getElo(playerId: string): Promise<number> {
+  async calculateElo(playerId: string): Promise<number> {
     const player = await this.findById(playerId);
-    const matchRankings = await this.matchRankingsService.findManyByPlayerId(playerId);
+    const matchResults = await this.matchResultsService.findManyByPlayerId(playerId);
 
-    const elo = matchRankings.reduce((sum, { eloChange }) => sum + eloChange, player.startingElo);
+    const elo = matchResults.reduce((sum, { eloChange }) => sum + eloChange, player.startingElo);
 
     return elo;
   }
