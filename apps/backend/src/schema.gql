@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type EloInfo {
+  eloChange: Float!
+  player: Player!
+}
+
 type Game {
   gameType: GameType!
   id: ID!
@@ -19,6 +24,7 @@ enum GameType {
 }
 
 type Match {
+  eloInfo: [EloInfo!]!
   game: Game!
   id: ID!
   matchResults: [MatchResult!]!
@@ -26,7 +32,6 @@ type Match {
 
 input MatchCreateInput {
   gameId: String!
-  name: String!
   playerRankings: [PlayerRanking!]!
 }
 

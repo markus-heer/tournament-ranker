@@ -12,9 +12,6 @@ export class PlayerRanking {
 @InputType()
 export class MatchCreateInput {
   @Field()
-  name: string;
-
-  @Field()
   gameId: string;
 
   @Field(() => [PlayerRanking])

@@ -18,8 +18,7 @@ enum GameType {
 model Player {
   id String @id @default(cuid())
 
-  name        String @unique
-  startingElo Int    @default(1200)
+  name String @unique
 
   matchResults MatchResult[]
 }

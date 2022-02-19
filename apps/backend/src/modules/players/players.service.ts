@@ -3,11 +3,9 @@ import { Player } from 'src/modules/players/models/Player.model';
 import { PlayerCreateInput } from 'src/modules/players/models/PlayerCreateInput.model';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 
-import { MatchResultsService } from '../match-results/match-results.service';
-
 @Injectable()
 export class PlayersService {
-  constructor(private prisma: PrismaService, private matchResultsService: MatchResultsService) {}
+  constructor(private prisma: PrismaService) {}
 
   async findById(id: string): Promise<Player> {
     const player = await this.prisma.player.findUnique({ where: { id } });
@@ -51,14 +49,5 @@ export class PlayersService {
 
   async delete(id: string): Promise<Player> {
     return new Player(await this.prisma.player.delete({ where: { id } }));
-  }
-
-  async calculateElo(playerId: string): Promise<number> {
-    const player = await this.findById(playerId);
-    const matchResults = await this.matchResultsService.findManyByPlayerId(playerId);
-
-    const elo = matchResults.reduce((sum, { eloChange }) => sum + eloChange, player.startingElo);
-
-    return elo;
   }
 }

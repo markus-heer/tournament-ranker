@@ -2,6 +2,7 @@ import { Args, ID, Mutation, Parent, Query, ResolveField, Resolver } from '@nest
 import { GamesService } from 'src/modules/games/games.service';
 import { Game } from 'src/modules/games/models/Game.model';
 import { MatchesService } from 'src/modules/matches/matches.service';
+import { EloInfo } from 'src/modules/matches/models/EloInfo.model';
 import { Match } from 'src/modules/matches/models/Match.model';
 
 import { MatchResultsService } from '../match-results/match-results.service';
@@ -39,5 +40,10 @@ export class MatchesResolver {
   @ResolveField('matchResults')
   async matchResults(@Parent() { id }: Match): Promise<MatchResult[]> {
     return this.matchResultsService.findManyByMatchId(id);
+  }
+
+  @ResolveField('eloInfo')
+  async eloInfo(@Parent() { id }: Match): Promise<EloInfo[]> {
+    return this.matchesService.getEloInfo(id);
   }
 }

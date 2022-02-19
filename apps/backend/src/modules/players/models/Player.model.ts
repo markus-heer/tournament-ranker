@@ -12,11 +12,8 @@ export class Player {
   @Field()
   elo?: number;
 
-  startingElo: number;
-
-  constructor({ id, name, startingElo }: PlayerEntity) {
+  constructor({ id, name }: PlayerEntity) {
     this.id = id;
     this.name = name;
-    this.startingElo = startingElo;
   }
 }
