@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "dev": "nest start --watch",
-    "dev:fresh": "yarn db:reset --force && yarn db:migrate && yarn seed && yarn dev",
+    "dev:fresh": "yarn db:reset --force && yarn db:migrate && yarn seed:db && yarn dev",
     "seed:db": "yarn clear:db && ts-node prisma/seeds/scripts/seedDb",
     "clear:db": "ts-node prisma/seeds/scripts/clearDb",
     "db:migrate": "prisma migrate dev",

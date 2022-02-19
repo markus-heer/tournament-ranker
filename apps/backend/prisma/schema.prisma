@@ -18,12 +18,10 @@ enum GameType {
 model Player {
   id String @id @default(cuid())
 
-  name String @unique
-  elo  Int    @default(1200)
+  name        String @unique
+  startingElo Int    @default(1200)
 
-  matches PlayersOnMatches[]
-
-  wonMatches WinnersOnMatches[]
+  matchRankings MatchRanking[]
 }
 
 model Game {
@@ -43,25 +41,18 @@ model Match {
   game   Game   @relation(fields: [gameId], references: [id])
   gameId String
 
-  players PlayersOnMatches[]
-
-  winners WinnersOnMatches[]
+  matchRankings MatchRanking[]
 }
 
-model PlayersOnMatches {
+model MatchRanking {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+
   player   Player @relation(fields: [playerId], references: [id])
   playerId String
   match    Match  @relation(fields: [matchId], references: [id])
   matchId  String
 
-  @@id([playerId, matchId])
-}
-
-model WinnersOnMatches {
-  player   Player @relation(fields: [playerId], references: [id])
-  playerId String
-  match    Match  @relation(fields: [matchId], references: [id])
-  matchId  String
-
-  @@id([playerId, matchId])
+  rank      Int
+  eloChange Int
 }

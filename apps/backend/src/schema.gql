@@ -18,16 +18,10 @@ enum GameType {
   TEAM
 }
 
-input GameUpdateInput {
-  gameType: GameType!
-  name: String!
-}
-
 type Match {
   game: Game!
   id: ID!
-  players: [Player!]!
-  winners: [Player!]!
+  matchRankings: [MatchRanking!]!
 }
 
 input MatchCreateInput {
@@ -37,6 +31,14 @@ input MatchCreateInput {
   winnerIds: [String!]!
 }
 
+type MatchRanking {
+  eloChange: Float!
+  id: ID!
+  match: Match!
+  player: Player!
+  rank: Float!
+}
+
 type Mutation {
   createGame(data: GameCreateInput!): Game!
   createMatch(data: MatchCreateInput!): Match!
@@ -44,8 +46,6 @@ type Mutation {
   deleteGame(id: ID!): Game!
   deleteMatch(id: ID!): Match!
   deletePlayer(id: ID!): Player!
-  updateGame(data: GameUpdateInput!, id: ID!): Game!
-  updatePlayer(data: PlayerUpdateInput!, id: ID!): Player!
 }
 
 type Player {
@@ -58,12 +58,9 @@ input PlayerCreateInput {
   name: String!
 }
 
-input PlayerUpdateInput {
-  name: String!
-}
-
 type Query {
   games: [Game!]!
+  matchRankings: [MatchRanking!]!
   matches: [Match!]!
   players: [Player!]!
 }

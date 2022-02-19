@@ -3,9 +3,9 @@ import { GamesService } from 'src/modules/games/games.service';
 import { Game } from 'src/modules/games/models/Game.model';
 import { MatchesService } from 'src/modules/matches/matches.service';
 import { Match } from 'src/modules/matches/models/Match.model';
-import { Player } from 'src/modules/players/models/Player.model';
-import { PlayersService } from 'src/modules/players/players.service';
 
+import { MatchRankingsService } from '../match-rankings/match-rankings.service';
+import { MatchRanking } from '../match-rankings/models/MatchRankings.model';
 import { MatchCreateInput } from './models/MatchCreateInput.model';
 
 @Resolver(() => Match)
@@ -13,7 +13,7 @@ export class MatchesResolver {
   constructor(
     private matchesService: MatchesService,
     private gamesService: GamesService,
-    private playersService: PlayersService,
+    private matchRankingsService: MatchRankingsService,
   ) {}
 
   @Query(() => [Match])
@@ -36,13 +36,8 @@ export class MatchesResolver {
     return this.gamesService.findByMatchId(id);
   }
 
-  @ResolveField('players')
-  async players(@Parent() { id }: Match): Promise<Player[]> {
-    return this.playersService.findPlayersByMatchId(id);
-  }
-
-  @ResolveField('winners')
-  async winners(@Parent() { id }: Match): Promise<Player[]> {
-    return this.playersService.findWinnersByMatchId(id);
+  @ResolveField('matchRankings')
+  async matchRankings(@Parent() { id }: Match): Promise<MatchRanking[]> {
+    return this.matchRankingsService.findManyByMatchId(id);
   }
 }

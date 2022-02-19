@@ -3,8 +3,6 @@ import { Game } from 'src/modules/games/models/Game.model';
 import { GameCreateInput } from 'src/modules/games/models/GameCreateInput.model';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 
-import { GameUpdateInput } from './models/GameUpdateInput.model';
-
 @Injectable()
 export class GamesService {
   constructor(private prisma: PrismaService) {}
@@ -25,10 +23,6 @@ export class GamesService {
 
   async create(data: GameCreateInput): Promise<Game> {
     return new Game(await this.prisma.game.create({ data }));
-  }
-
-  async update(id: string, data: GameUpdateInput): Promise<Game> {
-    return new Game(await this.prisma.game.update({ where: { id }, data }));
   }
 
   async delete(id: string): Promise<Game> {

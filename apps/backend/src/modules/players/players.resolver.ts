@@ -1,9 +1,8 @@
-import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, ID, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { Player } from 'src/modules/players/models/Player.model';
 import { PlayersService } from 'src/modules/players/players.service';
 
 import { PlayerCreateInput } from './models/PlayerCreateInput.model';
-import { PlayerUpdateInput } from './models/PlayerUpdateInput.model';
 
 @Resolver(() => Player)
 export class PlayersResolver {
@@ -20,15 +19,12 @@ export class PlayersResolver {
   }
 
   @Mutation(() => Player)
-  async updatePlayer(
-    @Args({ name: 'id', type: () => ID }) id: string,
-    @Args('data') data: PlayerUpdateInput,
-  ): Promise<Player> {
-    return this.playersService.update(id, data);
-  }
-
-  @Mutation(() => Player)
   async deletePlayer(@Args({ name: 'id', type: () => ID }) id: string): Promise<Player> {
     return this.playersService.delete(id);
+  }
+
+  @ResolveField('elo')
+  async elo(@Parent() { id }: Player): Promise<number> {
+    return this.playersService.getElo(id);
   }
 }
