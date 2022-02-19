@@ -1,4 +1,13 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql';
+
+@InputType()
+export class PlayerRanking {
+  @Field(() => ID)
+  playerId: string;
+
+  @Field()
+  rank: number;
+}
 
 @InputType()
 export class MatchCreateInput {
@@ -8,9 +17,6 @@ export class MatchCreateInput {
   @Field()
   gameId: string;
 
-  @Field(() => [String])
-  playerIds?: string[];
-
-  @Field(() => [String])
-  winnerIds?: string[];
+  @Field(() => [PlayerRanking])
+  playerRankings: PlayerRanking[];
 }

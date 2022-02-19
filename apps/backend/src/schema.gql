@@ -27,8 +27,7 @@ type Match {
 input MatchCreateInput {
   gameId: String!
   name: String!
-  playerIds: [String!]!
-  winnerIds: [String!]!
+  playerRankings: [PlayerRanking!]!
 }
 
 type MatchResult {
@@ -56,6 +55,11 @@ type Player {
 
 input PlayerCreateInput {
   name: String!
+}
+
+input PlayerRanking {
+  playerId: ID!
+  rank: Float!
 }
 
 type Query {
