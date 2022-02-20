@@ -13,117 +13,105 @@ export type Scalars = {
   Float: number;
 };
 
-export type GqlDesk = {
-  __typename?: 'Desk';
+export type GqlEloInfo = {
+  __typename?: 'EloInfo';
+  eloChange: Scalars['Float'];
+  player: GqlPlayer;
+};
+
+export type GqlGame = {
+  __typename?: 'Game';
+  gameType: GqlGameType;
   id: Scalars['ID'];
   name: Scalars['String'];
 };
 
-export type GqlDeskCreateInput = {
+export type GqlGameCreateInput = {
+  gameType: GqlGameType;
   name: Scalars['String'];
-  roomId: Scalars['ID'];
 };
 
-export type GqlDeskUpdateInput = {
-  name: Scalars['String'];
-  roomId: Scalars['ID'];
+export enum GqlGameType {
+  Single = 'SINGLE',
+  Team = 'TEAM',
+}
+
+export type GqlMatch = {
+  __typename?: 'Match';
+  eloInfo: Array<GqlEloInfo>;
+  game: GqlGame;
+  id: Scalars['ID'];
+  matchResults: Array<GqlMatchResult>;
+};
+
+export type GqlMatchCreateInput = {
+  gameId: Scalars['String'];
+  playerRankings: Array<GqlPlayerRanking>;
+};
+
+export type GqlMatchResult = {
+  __typename?: 'MatchResult';
+  eloChange: Scalars['Float'];
+  id: Scalars['ID'];
+  match: GqlMatch;
+  player: GqlPlayer;
+  rank: Scalars['Float'];
 };
 
 export type GqlMutation = {
   __typename?: 'Mutation';
-  createDesk: GqlDesk;
-  createOffice: GqlOffice;
-  createRoom: GqlRoom;
-  deleteDesk: GqlDesk;
-  deleteOffice: GqlOffice;
-  deleteRoom: GqlRoom;
-  updateDesk: GqlDesk;
-  updateOffice: GqlOffice;
-  updateRoom: GqlRoom;
+  createGame: GqlGame;
+  createMatch: GqlMatch;
+  createPlayer: GqlPlayer;
+  deleteGame: GqlGame;
+  deleteMatch: GqlMatch;
+  deletePlayer: GqlPlayer;
 };
 
-export type GqlMutationCreateDeskArgs = {
-  data: GqlDeskCreateInput;
+export type GqlMutationCreateGameArgs = {
+  data: GqlGameCreateInput;
 };
 
-export type GqlMutationCreateOfficeArgs = {
-  data: GqlOfficeCreateInput;
+export type GqlMutationCreateMatchArgs = {
+  data: GqlMatchCreateInput;
 };
 
-export type GqlMutationCreateRoomArgs = {
-  data: GqlRoomCreateInput;
+export type GqlMutationCreatePlayerArgs = {
+  data: GqlPlayerCreateInput;
 };
 
-export type GqlMutationDeleteDeskArgs = {
+export type GqlMutationDeleteGameArgs = {
   id: Scalars['ID'];
 };
 
-export type GqlMutationDeleteOfficeArgs = {
+export type GqlMutationDeleteMatchArgs = {
   id: Scalars['ID'];
 };
 
-export type GqlMutationDeleteRoomArgs = {
+export type GqlMutationDeletePlayerArgs = {
   id: Scalars['ID'];
 };
 
-export type GqlMutationUpdateDeskArgs = {
-  data: GqlDeskUpdateInput;
-  id: Scalars['ID'];
-};
-
-export type GqlMutationUpdateOfficeArgs = {
-  data: GqlOfficeUpdateInput;
-  id: Scalars['ID'];
-};
-
-export type GqlMutationUpdateRoomArgs = {
-  data: GqlRoomUpdateInput;
-  id: Scalars['ID'];
-};
-
-export type GqlOffice = {
-  __typename?: 'Office';
+export type GqlPlayer = {
+  __typename?: 'Player';
+  elo: Scalars['Float'];
   id: Scalars['ID'];
   name: Scalars['String'];
-  rooms: Array<GqlRoom>;
 };
 
-export type GqlOfficeCreateInput = {
+export type GqlPlayerCreateInput = {
   name: Scalars['String'];
 };
 
-export type GqlOfficeUpdateInput = {
-  name: Scalars['String'];
+export type GqlPlayerRanking = {
+  playerId: Scalars['ID'];
+  rank: Scalars['Float'];
 };
 
 export type GqlQuery = {
   __typename?: 'Query';
-  desks: Array<GqlDesk>;
-  offices: Array<GqlOffice>;
-  rooms: Array<GqlRoom>;
-};
-
-export type GqlQueryDesksArgs = {
-  roomId: Scalars['ID'];
-};
-
-export type GqlQueryRoomsArgs = {
-  officeId: Scalars['ID'];
-};
-
-export type GqlRoom = {
-  __typename?: 'Room';
-  desks: Array<GqlDesk>;
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-export type GqlRoomCreateInput = {
-  name: Scalars['String'];
-  officeId: Scalars['ID'];
-};
-
-export type GqlRoomUpdateInput = {
-  name: Scalars['String'];
-  officeId: Scalars['ID'];
+  games: Array<GqlGame>;
+  matchResults: Array<GqlMatchResult>;
+  matches: Array<GqlMatch>;
+  players: Array<GqlPlayer>;
 };

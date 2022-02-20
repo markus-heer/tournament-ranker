@@ -1,62 +1,71 @@
-type Desk {
+type EloInfo {
+  eloChange: Float!
+  player: Player!
+}
+
+type Game {
+  gameType: GameType!
   id: ID!
   name: String!
 }
 
-input DeskCreateInput {
+input GameCreateInput {
+  gameType: GameType!
   name: String!
-  roomId: ID!
 }
 
-input DeskUpdateInput {
-  name: String!
-  roomId: ID!
+enum GameType {
+  SINGLE
+  TEAM
+}
+
+type Match {
+  eloInfo: [EloInfo!]!
+  game: Game!
+  id: ID!
+  matchResults: [MatchResult!]!
+}
+
+input MatchCreateInput {
+  gameId: String!
+  playerRankings: [PlayerRanking!]!
+}
+
+type MatchResult {
+  eloChange: Float!
+  id: ID!
+  match: Match!
+  player: Player!
+  rank: Float!
 }
 
 type Mutation {
-  createDesk(data: DeskCreateInput!): Desk!
-  createOffice(data: OfficeCreateInput!): Office!
-  createRoom(data: RoomCreateInput!): Room!
-  deleteDesk(id: ID!): Desk!
-  deleteOffice(id: ID!): Office!
-  deleteRoom(id: ID!): Room!
-  updateDesk(data: DeskUpdateInput!, id: ID!): Desk!
-  updateOffice(data: OfficeUpdateInput!, id: ID!): Office!
-  updateRoom(data: RoomUpdateInput!, id: ID!): Room!
+  createGame(data: GameCreateInput!): Game!
+  createMatch(data: MatchCreateInput!): Match!
+  createPlayer(data: PlayerCreateInput!): Player!
+  deleteGame(id: ID!): Game!
+  deleteMatch(id: ID!): Match!
+  deletePlayer(id: ID!): Player!
 }
 
-type Office {
+type Player {
+  elo: Float!
   id: ID!
   name: String!
-  rooms: [Room!]!
 }
 
-input OfficeCreateInput {
+input PlayerCreateInput {
   name: String!
 }
 
-input OfficeUpdateInput {
-  name: String!
+input PlayerRanking {
+  playerId: ID!
+  rank: Float!
 }
 
 type Query {
-  desks(roomId: ID!): [Desk!]!
-  offices: [Office!]!
-  rooms(officeId: ID!): [Room!]!
-}
-
-type Room {
-  desks: [Desk!]!
-  id: ID!
-  name: String!
-}
-
-input RoomCreateInput {
-  name: String!
-  officeId: ID!
-}
-
-input RoomUpdateInput {
-  name: String!
-  officeId: ID!
+  games: [Game!]!
+  matchResults: [MatchResult!]!
+  matches: [Match!]!
+  players: [Player!]!
 }

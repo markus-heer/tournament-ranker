@@ -1,8 +1,9 @@
 import { gql } from '@apollo/client';
 
 export default gql`
-  fragment fullOffice on Office {
+  fragment fullPlayer on Player {
     id
     name
+    elo
   }
 `;
