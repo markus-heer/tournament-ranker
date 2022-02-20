@@ -43,6 +43,8 @@
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.4.2",
-    "@mui/material": "^5.4.2"
+    "@mui/material": "^5.4.2",
+    "react-dnd": "^15.1.1",
+    "react-dnd-html5-backend": "^15.1.2"
   }
 }
