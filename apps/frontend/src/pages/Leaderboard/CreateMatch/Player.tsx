@@ -2,7 +2,7 @@ import { Avatar, Chip } from '@mui/material';
 import { VFC } from 'react';
 import { useDrag } from 'react-dnd';
 
-import { GqlFullPlayerFragment } from '../../graphql/fragments/__generated__/fullPlayer';
+import { GqlFullPlayerFragment } from '../../../graphql/fragments/__generated__/fullPlayer';
 
 export const Player: VFC<Pick<GqlFullPlayerFragment, 'id' | 'name'>> = ({ id, name }) => {
   const [{}, drag] = useDrag(

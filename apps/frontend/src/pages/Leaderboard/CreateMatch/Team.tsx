@@ -2,7 +2,7 @@ import { Paper, Typography } from '@mui/material';
 import { VFC } from 'react';
 import { useDrop } from 'react-dnd';
 
-import { GqlFullPlayerFragment } from '../../graphql/fragments/__generated__/fullPlayer';
+import { GqlFullPlayerFragment } from '../../../graphql/fragments/__generated__/fullPlayer';
 import { Player } from './Player';
 
 interface TeamProps {
