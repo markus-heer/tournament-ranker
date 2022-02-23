@@ -7,6 +7,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from '@mui/material';
 import { useEffect, useState, VFC } from 'react';
 
@@ -15,8 +16,8 @@ import { usePlayersQuery } from '../../graphql/queries/__generated__/players';
 import { CreateMatch } from './CreateMatch/CreateMatch';
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   margin: 20px;
   gap: 20px;
 `;
@@ -54,31 +55,41 @@ export const Leaderboard: VFC = () => {
 
   return (
     <Wrapper>
-      <TableContainer component={Paper} sx={{ maxWidth: 500 }}>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Platz</TableCell>
-              <TableCell align="right">Name</TableCell>
-              <TableCell align="right">Matches</TableCell>
-              <TableCell align="right">Elo</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedPlayers?.map(({ id, name, elo, rank }) => (
-              <TableRow key={id}>
-                <TableCell component="th" scope="row">
-                  {rank}
-                </TableCell>
-                <TableCell align="right">{name}</TableCell>
-                <TableCell align="right">100</TableCell>
-                <TableCell align="right">{elo}</TableCell>
+      <Paper
+        variant="outlined"
+        sx={{ padding: 1, backgroundColor: (theme) => theme.palette.background.paper }}
+      >
+        <Typography variant="h4" mb={2}>
+          Rangliste
+        </Typography>
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Platz</TableCell>
+                <TableCell align="right">Name</TableCell>
+                <TableCell align="right">Matches</TableCell>
+                <TableCell align="right">Elo</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <CreateMatch onSubmit={refetch} />
+            </TableHead>
+            <TableBody>
+              {sortedPlayers?.map(({ id, name, elo, rank }) => (
+                <TableRow key={id}>
+                  <TableCell component="th" scope="row">
+                    {rank}
+                  </TableCell>
+                  <TableCell align="right">{name}</TableCell>
+                  <TableCell align="right">100</TableCell>
+                  <TableCell align="right">{elo}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+      <Paper variant="outlined" sx={{ padding: 1, display: 'flex' }}>
+        <CreateMatch onSubmit={refetch} />
+      </Paper>
     </Wrapper>
   );
 };

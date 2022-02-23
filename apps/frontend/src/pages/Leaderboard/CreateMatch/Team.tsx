@@ -22,9 +22,9 @@ export const Team: VFC<TeamProps> = ({ players, rank, onDrop }) => {
   });
 
   const isActive = isOver;
-  let backgroundColor = '#eee';
+  let backgroundColor = 'rgba(255, 255, 255, 0.1)';
   if (isActive) {
-    backgroundColor = 'darkgreen';
+    backgroundColor = 'rgba(255, 255, 255, 0.2)';
   }
 
   return (
@@ -34,7 +34,17 @@ export const Team: VFC<TeamProps> = ({ players, rank, onDrop }) => {
       ) : (
         <Typography>{`${rank}. Platz`}</Typography>
       )}
-      <Paper ref={drop} sx={{ minHeight: 40, backgroundColor }}>
+      <Paper
+        ref={drop}
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 1,
+          padding: 1,
+          minHeight: 48,
+          backgroundColor,
+        }}
+      >
         {players.map(({ id, name }) => (
           <Player key={id} name={name} id={id} />
         ))}
