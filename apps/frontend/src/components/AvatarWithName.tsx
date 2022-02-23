@@ -1,5 +1,4 @@
 import { Avatar, Box } from '@mui/material';
-import { AvatarGenerator } from 'random-avatar-generator';
 import { VFC } from 'react';
 
 interface AvatarWithNameProps {

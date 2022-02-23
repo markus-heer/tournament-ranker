@@ -82,7 +82,7 @@ export const MatchHistory: VFC = () => {
                 <TableCell component="th" scope="row">
                   {game.name}
                 </TableCell>
-                <TableCell>{format(new Date(createdAt), 'hh:mm:ss')}</TableCell>
+                <TableCell>{format(new Date(createdAt), 'HH:mm:ss')}</TableCell>
                 <TableCell sx={{ padding: 0, '& tr:last-child td': { border: 'none' } }}>
                   <InnerTable>
                     <tbody>
