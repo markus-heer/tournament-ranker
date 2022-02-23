@@ -5,13 +5,10 @@ import { useDrag } from 'react-dnd';
 import { GqlFullPlayerFragment } from '../../../graphql/fragments/__generated__/fullPlayer';
 
 export const Player: VFC<Pick<GqlFullPlayerFragment, 'id' | 'name'>> = ({ id, name }) => {
-  const [{}, drag] = useDrag(
+  const [, drag] = useDrag(
     () => ({
       type: 'player',
       item: { id, name },
-      collect: (monitor) => ({
-        opacity: monitor.isDragging() ? 0.4 : 1,
-      }),
     }),
     [name],
   );

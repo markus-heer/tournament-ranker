@@ -12,19 +12,19 @@ interface TeamProps {
 }
 
 export const Team: VFC<TeamProps> = ({ players, rank, onDrop }) => {
-  const [{ isOver }, drop] = useDrop({
+  const [{ isOver, hoveredItem }, drop] = useDrop({
     accept: 'player',
     drop: onDrop,
     collect: (monitor) => ({
       isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
+      hoveredItem: monitor.getItem(),
     }),
   });
 
   const isActive = isOver;
-  let backgroundColor = 'rgba(255, 255, 255, 0.1)';
+  let backgroundColor = '#242424';
   if (isActive) {
-    backgroundColor = 'rgba(255, 255, 255, 0.2)';
+    backgroundColor = '#3a3a3a';
   }
 
   return (
@@ -48,6 +48,9 @@ export const Team: VFC<TeamProps> = ({ players, rank, onDrop }) => {
         {players.map(({ id, name }) => (
           <Player key={id} name={name} id={id} />
         ))}
+        {hoveredItem && isOver && !players.find(({ id }) => hoveredItem.id === id) && (
+          <Player key={hoveredItem.id} name={hoveredItem.name} id={hoveredItem.id} />
+        )}
       </Paper>
     </div>
   );
