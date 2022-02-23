@@ -14,7 +14,7 @@ export type GqlMatchesQuery = {
   matches: Array<{
     __typename?: 'Match';
     id: string;
-    createdAt: any;
+    createdAt: Date;
     game: { __typename?: 'Game'; id: string; name: string };
     eloInfo: Array<{
       __typename?: 'EloInfo';

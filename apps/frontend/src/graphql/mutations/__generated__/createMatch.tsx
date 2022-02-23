@@ -11,7 +11,7 @@ export type GqlCreateMatchMutationVariables = Types.Exact<{
 
 export type GqlCreateMatchMutation = {
   __typename?: 'Mutation';
-  createMatch: { __typename?: 'Match'; id: string; createdAt: any };
+  createMatch: { __typename?: 'Match'; id: string; createdAt: Date };
 };
 
 export const CreateMatchDocument = gql`
