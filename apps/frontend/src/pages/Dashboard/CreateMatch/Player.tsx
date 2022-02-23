@@ -16,5 +16,12 @@ export const Player: VFC<Pick<GqlFullPlayerFragment, 'id' | 'name'>> = ({ id, na
     [name],
   );
 
-  return <Chip ref={drag} label={name} avatar={<Avatar>{name[0]}</Avatar>}></Chip>;
+  return (
+    <Chip
+      ref={drag}
+      label={name}
+      avatar={<Avatar>{name[0]}</Avatar>}
+      sx={{ cursor: 'grab' }}
+    ></Chip>
+  );
 };

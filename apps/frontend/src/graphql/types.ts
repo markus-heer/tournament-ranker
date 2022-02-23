@@ -12,13 +12,14 @@ export type Scalars = {
   Int: number;
   Float: number;
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
-  DateTime: Date;
+  DateTime: string;
 };
 
 export type GqlEloInfo = {
   __typename?: 'EloInfo';
   eloChange: Scalars['Float'];
   player: GqlPlayer;
+  rank: Scalars['Float'];
 };
 
 export type GqlGame = {
@@ -100,6 +101,7 @@ export type GqlPlayer = {
   elo: Scalars['Float'];
   id: Scalars['ID'];
   name: Scalars['String'];
+  numberOfMatches: Scalars['Float'];
 };
 
 export type GqlPlayerCreateInput = {

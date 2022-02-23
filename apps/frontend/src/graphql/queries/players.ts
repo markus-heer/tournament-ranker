@@ -7,6 +7,9 @@ export default gql`
     players {
       ...fullPlayer
     }
+    matches {
+      id
+    }
   }
   ${fullPlayer}
 `;

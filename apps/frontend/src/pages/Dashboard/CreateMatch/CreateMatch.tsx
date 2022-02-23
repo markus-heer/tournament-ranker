@@ -1,3 +1,4 @@
+import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
 import { Button, InputLabel, MenuItem, Paper, Select, Stack, Typography } from '@mui/material';
 import { useCallback, useEffect, useState, VFC } from 'react';
@@ -23,14 +24,11 @@ const FormWrapper = styled.div`
   flex-direction: column;
 `;
 
-interface CreateMatchProps {
-  onSubmit: () => void;
-}
-
-export const CreateMatch: VFC<CreateMatchProps> = ({ onSubmit }) => {
+export const CreateMatch: VFC = () => {
   const { data: playersData, loading: playersLoading } = usePlayersQuery();
   const { data: gamesData, loading: gamesLoading } = useGamesQuery();
   const [createMatchMutation] = useCreateMatchMutation();
+  const apolloClient = useApolloClient();
 
   const [playerRanks, setPlayerRanks] = useState<Record<string, number>>({});
   const [game, setGame] = useState<string | undefined>(undefined);
@@ -113,7 +111,9 @@ export const CreateMatch: VFC<CreateMatchProps> = ({ onSubmit }) => {
 
     setInitialData();
 
-    onSubmit();
+    await apolloClient.refetchQueries({
+      include: 'active',
+    });
   };
 
   if (loading || !game) return <div>Loading...</div>;

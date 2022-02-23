@@ -10,7 +10,7 @@ generates:
     config:
       typesPrefix: Gql
       scalars:
-        DateTime: Date
+        DateTime: string
     plugins:
       - typescript
       - add:
@@ -27,7 +27,7 @@ generates:
       withHooks: true
       reactApolloVersion: 3
       scalars:
-        DateTime: Date
+        DateTime: string
     plugins:
       - 'typescript-operations'
       - 'typescript-react-apollo'

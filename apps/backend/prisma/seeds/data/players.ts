@@ -10,6 +10,7 @@ export const players: Prisma.PlayerCreateArgs[] = [
   'Simon',
   'Marco',
   'Uli',
+  'Max',
 ].map((name) => ({
   data: {
     id: name,

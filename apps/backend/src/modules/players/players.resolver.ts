@@ -31,4 +31,9 @@ export class PlayersResolver {
   async elo(@Parent() { id }: Player): Promise<number> {
     return this.matchResultsService.calculateEloByPlayerId(id);
   }
+
+  @ResolveField('numberOfMatches')
+  async numberOfMatches(@Parent() { id }: Player): Promise<number> {
+    return this.playersService.getNumberOfMatches(id);
+  }
 }

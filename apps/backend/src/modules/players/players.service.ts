@@ -43,6 +43,23 @@ export class PlayersService {
     return players.map((player) => new Player(player));
   }
 
+  async getNumberOfMatches(id: string): Promise<number> {
+    const player = await this.prisma.player.findUnique({
+      where: { id },
+      include: { matchResults: { include: { match: true } } },
+    });
+
+    let matchIds: string[] = [];
+
+    player?.matchResults.forEach(({ match }) => {
+      if (!matchIds.includes(match.id)) {
+        matchIds = [...matchIds, match.id];
+      }
+    });
+
+    return matchIds.length;
+  }
+
   async create(data: PlayerCreateInput): Promise<Player> {
     return new Player(await this.prisma.player.create({ data }));
   }

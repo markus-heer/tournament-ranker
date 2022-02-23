@@ -8,4 +8,7 @@ export class EloInfo {
 
   @Field()
   eloChange: number;
+
+  @Field()
+  rank: number;
 }

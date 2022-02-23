@@ -7,6 +7,7 @@ export type GqlFullPlayerFragment = {
   id: string;
   name: string;
   elo: number;
+  numberOfMatches: number;
 };
 
 export const FullPlayerFragmentDoc = gql`
@@ -14,5 +15,6 @@ export const FullPlayerFragmentDoc = gql`
     id
     name
     elo
+    numberOfMatches
   }
 `;

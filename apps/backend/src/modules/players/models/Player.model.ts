@@ -10,6 +10,9 @@ export class Player {
   name: string;
 
   @Field()
+  numberOfMatches?: number;
+
+  @Field()
   elo?: number;
 
   constructor({ id, name }: PlayerEntity) {

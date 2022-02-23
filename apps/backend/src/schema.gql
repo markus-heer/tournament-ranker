@@ -10,6 +10,7 @@ scalar DateTime
 type EloInfo {
   eloChange: Float!
   player: Player!
+  rank: Float!
 }
 
 type Game {
@@ -62,6 +63,7 @@ type Player {
   elo: Float!
   id: ID!
   name: String!
+  numberOfMatches: Float!
 }
 
 input PlayerCreateInput {

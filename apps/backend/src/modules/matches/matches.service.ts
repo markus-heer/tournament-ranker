@@ -38,14 +38,17 @@ export class MatchesService {
 
     const playerIds = Array.from(new Set(matchResults.map(({ player }) => player.id)));
 
-    const eloInfo = playerIds.map(
-      (playerId): EloInfo => ({
-        player: new Player(
-          matchResults.find(({ player }) => player.id === playerId)?.player as Player,
-        ),
-        eloChange: eloSum[playerId],
-      }),
-    );
+    const eloInfo = playerIds
+      .map(
+        (playerId): EloInfo => ({
+          player: new Player(
+            matchResults.find(({ player }) => player.id === playerId)?.player as Player,
+          ),
+          eloChange: eloSum[playerId],
+          rank: matchResults.find(({ player }) => player.id === playerId)?.rank || 0,
+        }),
+      )
+      .sort((a, b) => a.rank - b.rank);
 
     return eloInfo;
   }

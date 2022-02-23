@@ -9,13 +9,23 @@ export type GqlPlayersQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type GqlPlayersQuery = {
   __typename?: 'Query';
-  players: Array<{ __typename?: 'Player'; id: string; name: string; elo: number }>;
+  players: Array<{
+    __typename?: 'Player';
+    id: string;
+    name: string;
+    elo: number;
+    numberOfMatches: number;
+  }>;
+  matches: Array<{ __typename?: 'Match'; id: string }>;
 };
 
 export const PlayersDocument = gql`
   query players {
     players {
       ...fullPlayer
+    }
+    matches {
+      id
     }
   }
   ${FullPlayerFragmentDoc}

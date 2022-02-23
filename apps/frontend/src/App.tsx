@@ -4,7 +4,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { apolloClient } from './graphql/apolloClient';
-import { Leaderboard } from './pages/Leaderboard/Leaderboard';
+import { Dashboard } from './pages/Dashboard/Dashboard';
 
 const theme = createTheme({
   palette: {
@@ -22,7 +22,7 @@ const App: React.VFC = () => {
         <CssBaseline />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Leaderboard />}></Route>
+            <Route path="/" element={<Dashboard />}></Route>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
