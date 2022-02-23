@@ -9,6 +9,9 @@ export class Match {
   @Field(() => ID)
   id: string;
 
+  @Field(() => Date)
+  createdAt: Date;
+
   @Field(() => Game)
   game?: Game;
 
@@ -18,7 +21,8 @@ export class Match {
   @Field(() => [EloInfo])
   eloInfo?: EloInfo[];
 
-  constructor({ id }: MatchEntity) {
+  constructor({ id, createdAt }: MatchEntity) {
     this.id = id;
+    this.createdAt = createdAt;
   }
 }

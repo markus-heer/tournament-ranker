@@ -18,7 +18,7 @@ export class MatchesService {
   constructor(private prisma: PrismaService, private matchResultsService: MatchResultsService) {}
 
   async findAll(): Promise<Match[]> {
-    const matches = await this.prisma.match.findMany();
+    const matches = await this.prisma.match.findMany({ orderBy: { createdAt: 'desc' } });
 
     return matches.map((match) => new Match(match));
   }

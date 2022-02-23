@@ -3,22 +3,42 @@ import * as Types from '../../types';
 
 import { gql } from '@apollo/client';
 import { FullMatchFragmentDoc } from '../../fragments/__generated__/fullMatch';
+import { FullGameFragmentDoc } from '../../fragments/__generated__/fullGame';
+import { FullEloInfoFragmentDoc } from '../../fragments/__generated__/fullEloInfo';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export type GqlMatchesQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type GqlMatchesQuery = {
   __typename?: 'Query';
-  matches: Array<{ __typename?: 'Match'; id: string }>;
+  matches: Array<{
+    __typename?: 'Match';
+    id: string;
+    createdAt: any;
+    game: { __typename?: 'Game'; id: string; name: string };
+    eloInfo: Array<{
+      __typename?: 'EloInfo';
+      eloChange: number;
+      player: { __typename?: 'Player'; id: string; name: string };
+    }>;
+  }>;
 };
 
 export const MatchesDocument = gql`
   query matches {
     matches {
       ...fullMatch
+      game {
+        ...fullGame
+      }
+      eloInfo {
+        ...fullEloInfo
+      }
     }
   }
   ${FullMatchFragmentDoc}
+  ${FullGameFragmentDoc}
+  ${FullEloInfoFragmentDoc}
 `;
 
 /**

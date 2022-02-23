@@ -14,6 +14,7 @@ import { useEffect, useState, VFC } from 'react';
 import { GqlFullPlayerFragment } from '../../graphql/fragments/__generated__/fullPlayer';
 import { usePlayersQuery } from '../../graphql/queries/__generated__/players';
 import { CreateMatch } from './CreateMatch/CreateMatch';
+import { MatchHistory } from './MatchHistory/MatchHistory';
 
 const Wrapper = styled.div`
   display: grid;
@@ -87,9 +88,8 @@ export const Leaderboard: VFC = () => {
           </Table>
         </TableContainer>
       </Paper>
-      <Paper variant="outlined" sx={{ padding: 1, display: 'flex' }}>
-        <CreateMatch onSubmit={refetch} />
-      </Paper>
+      <CreateMatch onSubmit={refetch} />
+      <MatchHistory />
     </Wrapper>
   );
 };

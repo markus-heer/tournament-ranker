@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Button, InputLabel, MenuItem, Select, Stack, Typography } from '@mui/material';
+import { Button, InputLabel, MenuItem, Paper, Select, Stack, Typography } from '@mui/material';
 import { useCallback, useEffect, useState, VFC } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -119,40 +119,42 @@ export const CreateMatch: VFC<CreateMatchProps> = ({ onSubmit }) => {
   if (loading || !game) return <div>Loading...</div>;
 
   return (
-    <Wrapper>
-      <FormWrapper>
-        <Typography variant="h4" mb={2}>
-          Match erstellen
-        </Typography>
-        <InputLabel id="game-label">Spiel</InputLabel>
-        <Select
-          labelId="game-label"
-          value={game}
-          label="Spiel"
-          onChange={(e) => setGame(e.target.value)}
-        >
-          {gamesData?.games.map(({ id, name }) => (
-            <MenuItem key={id} value={id}>
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
-        <DndProvider backend={HTML5Backend}>
-          <Stack spacing={2} sx={{ marginTop: 5 }}>
-            {Array.from(Array(getHighestRank() + 2).keys()).map((rank) => (
-              <Team
-                key={rank}
-                rank={rank}
-                onDrop={onDrop(rank)}
-                players={getPlayerObjectsFromRank(rank)}
-              />
+    <Paper variant="outlined" sx={{ padding: 1, display: 'flex' }}>
+      <Wrapper>
+        <FormWrapper>
+          <Typography variant="h4" mb={2}>
+            Match erstellen
+          </Typography>
+          <InputLabel id="game-label">Spiel</InputLabel>
+          <Select
+            labelId="game-label"
+            value={game}
+            label="Spiel"
+            onChange={(e) => setGame(e.target.value)}
+          >
+            {gamesData?.games.map(({ id, name }) => (
+              <MenuItem key={id} value={id}>
+                {name}
+              </MenuItem>
             ))}
-          </Stack>
-        </DndProvider>
-      </FormWrapper>
-      <Button onClick={createMatch} sx={{ marginTop: 5 }}>
-        Match erstellen
-      </Button>
-    </Wrapper>
+          </Select>
+          <DndProvider backend={HTML5Backend}>
+            <Stack spacing={2} sx={{ marginTop: 5 }}>
+              {Array.from(Array(getHighestRank() + 2).keys()).map((rank) => (
+                <Team
+                  key={rank}
+                  rank={rank}
+                  onDrop={onDrop(rank)}
+                  players={getPlayerObjectsFromRank(rank)}
+                />
+              ))}
+            </Stack>
+          </DndProvider>
+        </FormWrapper>
+        <Button onClick={createMatch} sx={{ marginTop: 5 }}>
+          Match erstellen
+        </Button>
+      </Wrapper>
+    </Paper>
   );
 };
