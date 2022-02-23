@@ -1,5 +1,5 @@
 {
-  "name": "tournament-ranker",
+  "name": "tournament-tracker",
   "private": true,
   "scripts": {
     "dev": "lerna run dev --stream",
