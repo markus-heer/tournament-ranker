@@ -1,4 +1,5 @@
 import { Avatar, Chip } from '@mui/material';
+import { AvatarGenerator } from 'random-avatar-generator';
 import { VFC } from 'react';
 import { useDrag } from 'react-dnd';
 
@@ -17,7 +18,7 @@ export const Player: VFC<Pick<GqlFullPlayerFragment, 'id' | 'name'>> = ({ id, na
     <Chip
       ref={drag}
       label={name}
-      avatar={<Avatar>{name[0]}</Avatar>}
+      avatar={<Avatar src={new AvatarGenerator().generateRandomAvatar(name)} />}
       sx={{ cursor: 'grab' }}
     ></Chip>
   );

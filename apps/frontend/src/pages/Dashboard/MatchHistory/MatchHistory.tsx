@@ -1,6 +1,7 @@
 import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
 import {
+  Box,
   Button,
   Paper,
   Table,
@@ -14,6 +15,7 @@ import {
 import { format } from 'date-fns';
 import { VFC } from 'react';
 
+import { AvatarWithName } from '../../../components/AvatarWithName';
 import { useDeleteMatchMutation } from '../../../graphql/mutations/__generated__/deleteMatch';
 import { useMatchesQuery } from '../../../graphql/queries/__generated__/matches';
 
@@ -86,9 +88,15 @@ export const MatchHistory: VFC = () => {
                     <tbody>
                       {eloInfo.map(({ player: { name }, eloChange, rank }) => (
                         <TableRow sx={{ display: 'flex' }} key={name}>
-                          <TableCell align="right">{rank}.</TableCell>
-                          <TableCell>{name}</TableCell>
-                          <TableCell sx={{ flexGrow: 1 }}>{eloChange}</TableCell>
+                          <TableCell align="right">
+                            <Box sx={{ marginTop: '12px' }}>{rank}.</Box>
+                          </TableCell>
+                          <TableCell>
+                            <AvatarWithName name={name} />
+                          </TableCell>
+                          <TableCell sx={{ flexGrow: 1 }}>
+                            <Box sx={{ marginTop: '12px' }}>{eloChange}</Box>
+                          </TableCell>
                         </TableRow>
                       ))}
                     </tbody>

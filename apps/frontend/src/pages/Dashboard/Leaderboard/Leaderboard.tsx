@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 
+import { AvatarWithName } from '../../../components/AvatarWithName';
 import { GqlFullPlayerFragment } from '../../../graphql/fragments/__generated__/fullPlayer';
 import { usePlayersQuery } from '../../../graphql/queries/__generated__/players';
 
@@ -68,7 +69,9 @@ export const Leaderboard = () => {
                 <TableCell component="th" scope="row">
                   {rank}
                 </TableCell>
-                <TableCell>{name}</TableCell>
+                <TableCell>
+                  <AvatarWithName name={name} />
+                </TableCell>
                 <TableCell align="right">{numberOfMatches}</TableCell>
                 <TableCell align="right">{elo}</TableCell>
               </TableRow>

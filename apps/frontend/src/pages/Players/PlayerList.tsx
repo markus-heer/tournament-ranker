@@ -11,6 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 
+import { AvatarWithName } from '../../components/AvatarWithName';
 import { useDeletePlayerMutation } from '../../graphql/mutations/__generated__/deletePlayer';
 import { usePlayersQuery } from '../../graphql/queries/__generated__/players';
 import { sortByName } from '../../helpers/sortByName';
@@ -49,7 +50,7 @@ export const PlayerList = () => {
             {[...(data?.players || [])].sort(sortByName).map(({ id, name, numberOfMatches }) => (
               <TableRow key={id}>
                 <TableCell component="th" scope="row">
-                  {name}
+                  <AvatarWithName name={name} />
                 </TableCell>
                 <TableCell align="right">
                   <Button
