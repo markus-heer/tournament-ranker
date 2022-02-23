@@ -53,6 +53,15 @@ export class MatchesService {
     return eloInfo;
   }
 
+  async getNumberOfMatchesByGameId(gameId: string): Promise<number> {
+    const matches = await this.prisma.match.aggregate({
+      where: { gameId },
+      _count: true,
+    });
+
+    return matches._count;
+  }
+
   async create({ gameId, playerRankings }: MatchCreateInput): Promise<Match> {
     const match = await this.prisma.match.create({ data: { gameId } });
 

@@ -13,6 +13,7 @@ type Game {
   gameType: GameType!
   id: ID!
   name: String!
+  numberOfMatches: Float!
 }
 
 input GameCreateInput {

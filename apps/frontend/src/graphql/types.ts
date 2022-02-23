@@ -27,6 +27,7 @@ export type GqlGame = {
   gameType: GqlGameType;
   id: Scalars['ID'];
   name: Scalars['String'];
+  numberOfMatches: Scalars['Float'];
 };
 
 export type GqlGameCreateInput = {

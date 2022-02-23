@@ -13,6 +13,9 @@ export class Game {
   @Field()
   name: string;
 
+  @Field()
+  numberOfMatches?: number;
+
   @Field(() => GameType)
   gameType: GameType;
 

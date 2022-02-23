@@ -9,7 +9,7 @@ export type GqlGamesQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type GqlGamesQuery = {
   __typename?: 'Query';
-  games: Array<{ __typename?: 'Game'; id: string; name: string }>;
+  games: Array<{ __typename?: 'Game'; id: string; name: string; numberOfMatches: number }>;
 };
 
 export const GamesDocument = gql`

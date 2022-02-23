@@ -1,32 +1,43 @@
-import { ApolloProvider } from '@apollo/client';
-import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Box, CssBaseline, Toolbar } from '@mui/material';
+import React, { useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-import { apolloClient } from './graphql/apolloClient';
+import { Menu } from './Menu';
 import { Dashboard } from './pages/Dashboard/Dashboard';
+import { Games } from './pages/Games/Games';
+import { Players } from './pages/Players/Players';
+import { TopBar } from './TopBar';
 
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    background: {
-      paper: '#181818',
-    },
-  },
-});
+const menuWidth = 240;
 
 const App: React.VFC = () => {
+  const [menuOpen, setMenuOpen] = useState(true);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
-    <ApolloProvider client={apolloClient}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Dashboard />}></Route>
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </ApolloProvider>
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <TopBar menuOpen={menuOpen} toggleMenu={toggleMenu} menuWidth={menuWidth} />
+      <Menu menuOpen={menuOpen} toggleMenu={toggleMenu} menuWidth={menuWidth} />
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          height: '100vh',
+          overflow: 'auto',
+        }}
+      >
+        <Toolbar />
+        <Routes>
+          <Route path="/" element={<Dashboard />}></Route>
+          <Route path="/games" element={<Games />}></Route>
+          <Route path="/players" element={<Players />}></Route>
+        </Routes>
+      </Box>
+    </Box>
   );
 };
 
