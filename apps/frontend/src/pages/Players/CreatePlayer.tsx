@@ -21,7 +21,7 @@ export const CreatePlayer: VFC = () => {
   const [createPlayerMutation] = useCreatePlayerMutation();
   const apolloClient = useApolloClient();
 
-  const [name, setName] = useState<string | null>(null);
+  const [name, setName] = useState<string>('');
 
   const createPlayer = async () => {
     if (name) {
@@ -32,6 +32,12 @@ export const CreatePlayer: VFC = () => {
       await apolloClient.refetchQueries({
         include: 'active',
       });
+    }
+  };
+
+  const onKeyPress: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
+    if (e.key == 'Enter') {
+      createPlayer();
     }
   };
 
@@ -47,6 +53,7 @@ export const CreatePlayer: VFC = () => {
             variant="outlined"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            onKeyPress={onKeyPress}
           />
         </FormWrapper>
         <Button onClick={createPlayer} sx={{ marginTop: 5 }} disabled={!name}>

@@ -10,6 +10,7 @@ import { useCreateMatchMutation } from '../../../graphql/mutations/__generated__
 import { useGamesQuery } from '../../../graphql/queries/__generated__/games';
 import { usePlayersQuery } from '../../../graphql/queries/__generated__/players';
 import { GqlMatchCreateInput } from '../../../graphql/types';
+import { sortByName } from '../../../helpers/sortByName';
 import { Team } from './Team';
 
 const Wrapper = styled.div`
@@ -82,7 +83,7 @@ export const CreateMatch: VFC = () => {
       }
     });
 
-    return players.sort((a, b) => a.name.localeCompare(b.name));
+    return players.sort(sortByName);
   };
 
   const createMatch = async () => {

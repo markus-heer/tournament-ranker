@@ -13,6 +13,7 @@ import {
 
 import { useDeletePlayerMutation } from '../../graphql/mutations/__generated__/deletePlayer';
 import { usePlayersQuery } from '../../graphql/queries/__generated__/players';
+import { sortByName } from '../../helpers/sortByName';
 
 export const PlayerList = () => {
   const apolloClient = useApolloClient();
@@ -45,7 +46,7 @@ export const PlayerList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.players.map(({ id, name, numberOfMatches }) => (
+            {[...(data?.players || [])].sort(sortByName).map(({ id, name, numberOfMatches }) => (
               <TableRow key={id}>
                 <TableCell component="th" scope="row">
                   {name}

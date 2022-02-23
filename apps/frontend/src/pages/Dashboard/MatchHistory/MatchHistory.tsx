@@ -81,7 +81,7 @@ export const MatchHistory: VFC = () => {
                   <InnerTable>
                     <tbody>
                       {eloInfo.map(({ player: { name }, eloChange, rank }) => (
-                        <TableRow sx={{ display: 'flex' }}>
+                        <TableRow sx={{ display: 'flex' }} key={name}>
                           <TableCell align="right">{rank}.</TableCell>
                           <TableCell>{name}</TableCell>
                           <TableCell sx={{ flexGrow: 1 }}>{eloChange}</TableCell>

@@ -22,7 +22,7 @@ export const CreateGame: VFC = () => {
   const [createGameMutation] = useCreateGameMutation();
   const apolloClient = useApolloClient();
 
-  const [name, setName] = useState<string | null>(null);
+  const [name, setName] = useState<string>('');
 
   const createGame = async () => {
     if (name) {
@@ -33,6 +33,12 @@ export const CreateGame: VFC = () => {
       await apolloClient.refetchQueries({
         include: 'active',
       });
+    }
+  };
+
+  const onKeyPress: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
+    if (e.key == 'Enter') {
+      createGame();
     }
   };
 
@@ -47,6 +53,7 @@ export const CreateGame: VFC = () => {
             label="Name"
             variant="outlined"
             value={name}
+            onKeyPress={onKeyPress}
             onChange={(e) => setName(e.target.value)}
           />
         </FormWrapper>
