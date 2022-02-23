@@ -43,6 +43,8 @@ export const MatchHistory: VFC = () => {
     }
   };
 
+  if (!data) return <div>Loading...</div>;
+
   return (
     <Paper
       variant="outlined"
@@ -57,9 +59,11 @@ export const MatchHistory: VFC = () => {
         <Typography variant="h4" mb={2}>
           Matchverlauf
         </Typography>
-        <Button onClick={deleteLastMatch} sx={{ marginBottom: '6px' }}>
-          letztes Match löschen
-        </Button>
+        {data.matches.length > 0 && (
+          <Button onClick={deleteLastMatch} sx={{ marginBottom: '6px' }}>
+            letztes Match löschen
+          </Button>
+        )}
       </Header>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">

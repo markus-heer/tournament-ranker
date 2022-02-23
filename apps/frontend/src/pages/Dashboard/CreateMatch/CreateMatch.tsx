@@ -13,13 +13,6 @@ import { GqlMatchCreateInput } from '../../../graphql/types';
 import { sortByName } from '../../../helpers/sortByName';
 import { Team } from './Team';
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
 const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,7 +25,7 @@ export const CreateMatch: VFC = () => {
   const apolloClient = useApolloClient();
 
   const [playerRanks, setPlayerRanks] = useState<Record<string, number>>({});
-  const [game, setGame] = useState<string | undefined>(undefined);
+  const [game, setGame] = useState<string>('');
 
   const loading = playersLoading || gamesLoading;
 
@@ -44,7 +37,7 @@ export const CreateMatch: VFC = () => {
       });
       setPlayerRanks(initialPlayerRanks);
 
-      setGame(gamesData?.games[0].id);
+      setGame(gamesData?.games[0]?.id || '');
     }
   }, [gamesData, playersData]);
 
@@ -117,45 +110,62 @@ export const CreateMatch: VFC = () => {
     });
   };
 
-  if (loading || !game) return <div>Loading...</div>;
+  if (loading || !gamesData || !playersData) return <div>Loading...</div>;
+
+  const gamesAndPlayersValid = gamesData.games.length !== 0 && playersData.players.length >= 2;
 
   return (
-    <Paper variant="outlined" sx={{ padding: 1, display: 'flex' }}>
-      <Wrapper>
-        <FormWrapper>
-          <Typography variant="h4" mb={2}>
-            Match erstellen
-          </Typography>
-          <InputLabel id="game-label">Spiel</InputLabel>
-          <Select
-            labelId="game-label"
-            value={game}
-            label="Spiel"
-            onChange={(e) => setGame(e.target.value)}
-          >
-            {gamesData?.games.map(({ id, name }) => (
-              <MenuItem key={id} value={id}>
-                {name}
-              </MenuItem>
-            ))}
-          </Select>
-          <DndProvider backend={HTML5Backend}>
-            <Stack spacing={2} sx={{ marginTop: 5 }}>
-              {Array.from(Array(getHighestRank() + 2).keys()).map((rank) => (
-                <Team
-                  key={rank}
-                  rank={rank}
-                  onDrop={onDrop(rank)}
-                  players={getPlayerObjectsFromRank(rank)}
-                />
-              ))}
-            </Stack>
-          </DndProvider>
-        </FormWrapper>
-        <Button onClick={createMatch} sx={{ marginTop: 5 }}>
+    <Paper
+      variant="outlined"
+      sx={{
+        padding: 1,
+        display: 'flex',
+        flexGrow: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
+      <FormWrapper>
+        <Typography variant="h4" mb={2}>
           Match erstellen
-        </Button>
-      </Wrapper>
+        </Typography>
+        {gamesAndPlayersValid ? (
+          <>
+            <InputLabel id="game-label">Spiel</InputLabel>
+            <Select
+              labelId="game-label"
+              value={game}
+              label="Spiel"
+              onChange={(e) => setGame(e.target.value)}
+            >
+              {gamesData?.games.map(({ id, name }) => (
+                <MenuItem key={id} value={id}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+            <DndProvider backend={HTML5Backend}>
+              <Stack spacing={2} sx={{ marginTop: 5 }}>
+                {Array.from(Array(getHighestRank() + 2).keys()).map((rank) => (
+                  <Team
+                    key={rank}
+                    rank={rank}
+                    onDrop={onDrop(rank)}
+                    players={getPlayerObjectsFromRank(rank)}
+                  />
+                ))}
+              </Stack>
+            </DndProvider>
+          </>
+        ) : (
+          <Typography variant="h6" mb={2}>
+            Bitte erst ein Spiel und mindestens 2 Spieler anlegen
+          </Typography>
+        )}
+      </FormWrapper>
+      <Button onClick={createMatch} sx={{ marginTop: 5 }} disabled={!gamesAndPlayersValid}>
+        Match erstellen
+      </Button>{' '}
     </Paper>
   );
 };
