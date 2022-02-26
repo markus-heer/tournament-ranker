@@ -1,7 +1,6 @@
 import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
 import { Button, InputLabel, MenuItem, Paper, Select, Stack, Typography } from '@mui/material';
-import { Box } from '@mui/system';
 import { useCallback, useEffect, useState, VFC } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -12,7 +11,7 @@ import { useGamesQuery } from '../../../graphql/queries/__generated__/games';
 import { usePlayersQuery } from '../../../graphql/queries/__generated__/players';
 import { sortByName } from '../../../helpers/sortByName';
 import { PlayerTeam, Team } from './Team';
-import { TeamRank } from './TeamRank';
+import { RanksObject, TeamRank } from './TeamRank';
 
 const FormWrapper = styled.div`
   display: flex;
@@ -20,7 +19,6 @@ const FormWrapper = styled.div`
 `;
 
 type TeamsObject = Record<string, number>;
-type RanksObject = Record<number, number>;
 
 export const CreateTeamMatch: VFC = () => {
   const { data: playersData, loading: playersLoading } = usePlayersQuery();
@@ -29,24 +27,25 @@ export const CreateTeamMatch: VFC = () => {
   const apolloClient = useApolloClient();
 
   const [playerTeams, setPlayerTeams] = useState<TeamsObject>({});
-  const [teamRanks, setTeamRanks] = useState<RanksObject>({ 0: 0, 1: 0 });
+  const [teamRanks, setTeamRanks] = useState<RanksObject>({});
   const [game, setGame] = useState<string>('');
 
   const loading = playersLoading || gamesLoading;
 
-  const setInitialTeamData = useCallback(() => {
+  const setInitialData = useCallback(() => {
     if (gamesData && playersData) {
       const initialPlayerTeams: TeamsObject = {};
       playersData.players.forEach(({ id }) => {
         initialPlayerTeams[id] = 0;
       });
       setPlayerTeams(initialPlayerTeams);
+      setTeamRanks({});
     }
   }, [gamesData, playersData]);
 
   useEffect(() => {
-    setInitialTeamData();
-  }, [gamesData, playersData, setInitialTeamData]);
+    setInitialData();
+  }, [gamesData, playersData, setInitialData]);
 
   const getHighestTeam = () => {
     let highestTeam = 0;
@@ -58,9 +57,16 @@ export const CreateTeamMatch: VFC = () => {
     return highestTeam;
   };
 
-  const onDropPlayer = (team: number) => (player: Pick<GqlFullPlayerFragment, 'id' | 'name'>) => {
-    setPlayerTeams({ ...playerTeams, [player.id]: team });
-  };
+  const onDropPlayer =
+    (teamId: number) => (player: Pick<GqlFullPlayerFragment, 'id' | 'name'>) => {
+      setPlayerTeams({ ...playerTeams, [player.id]: teamId });
+
+      if (teamRanks[teamId] === undefined) {
+        // eslint-disable-next-line no-console
+        console.log('new team');
+        setTeamRanks({ ...teamRanks, [teamId]: 0 });
+      }
+    };
 
   const onDropTeam = (rank: number) => (team: PlayerTeam) => {
     setTeamRanks({ ...teamRanks, [team.id]: rank });
@@ -104,7 +110,7 @@ export const CreateTeamMatch: VFC = () => {
   const createMatch = async () => {
     // TODO: send
 
-    setInitialTeamData();
+    setInitialData();
 
     setGame(gamesData?.games[0]?.id || '');
 
@@ -154,34 +160,18 @@ export const CreateTeamMatch: VFC = () => {
                   onDropPlayer={onDropPlayer(0)}
                   players={getPlayerObjectsFromTeam(0)}
                 />
-              </Stack>
-              <Box sx={{ marginTop: 5 }}>
-                <Typography>verfügbare Teams</Typography>
-                <Stack direction="row" spacing={2}>
-                  {Array.from(Array(getHighestTeam() + 2).keys())
-                    .filter((teamId) => teamId !== 0)
-                    .map((teamId) => (
-                      <Team
-                        key={teamId}
-                        id={teamId}
-                        onDropPlayer={onDropPlayer(teamId)}
-                        players={getPlayerObjectsFromTeam(teamId)}
-                      />
-                    ))}
-                </Stack>
-              </Box>
-              <Stack spacing={2} sx={{ marginTop: 5 }}>
-                {Array.from(Array(2 + 2).keys())
-                  .filter((rank) => rank !== 0)
-                  .map((rank) => (
-                    <TeamRank
-                      key={rank}
-                      rank={rank}
-                      onDropTeam={onDropTeam(rank)}
-                      teams={getTeamObjectsFromRank(rank)}
-                      onDropPlayerOnTeam={onDropPlayer}
-                    />
-                  ))}
+                {Array.from(Array(2 + 2).keys()).map((rank) => (
+                  <TeamRank
+                    key={rank}
+                    rank={rank}
+                    onDropTeam={onDropTeam(rank)}
+                    teams={getTeamObjectsFromRank(rank)}
+                    onDropPlayerOnTeam={onDropPlayer}
+                    getHighestTeam={getHighestTeam}
+                    teamRanks={teamRanks}
+                    getPlayerObjectsFromTeam={getPlayerObjectsFromTeam}
+                  />
+                ))}
               </Stack>
             </DndProvider>
           </>

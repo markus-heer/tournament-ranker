@@ -5,6 +5,8 @@ import { useDrop } from 'react-dnd';
 import { GqlFullPlayerFragment } from '../../../graphql/fragments/__generated__/fullPlayer';
 import { PlayerTeam, Team } from './Team';
 
+export type RanksObject = Record<number, number>;
+
 interface TeamRankProps {
   teams: PlayerTeam[];
   rank: number;
@@ -12,9 +14,20 @@ interface TeamRankProps {
   onDropPlayerOnTeam: (
     team: number,
   ) => (player: Pick<GqlFullPlayerFragment, 'id' | 'name'>) => void;
+  getHighestTeam: () => number;
+  teamRanks: RanksObject;
+  getPlayerObjectsFromTeam: (team: number) => Pick<GqlFullPlayerFragment, 'id' | 'name'>[];
 }
 
-export const TeamRank: VFC<TeamRankProps> = ({ teams, rank, onDropTeam, onDropPlayerOnTeam }) => {
+export const TeamRank: VFC<TeamRankProps> = ({
+  teams,
+  rank,
+  onDropTeam,
+  onDropPlayerOnTeam,
+  getHighestTeam,
+  teamRanks,
+  getPlayerObjectsFromTeam,
+}) => {
   const [{ isOver, hoveredItem }, drop] = useDrop({
     accept: 'team',
     drop: onDropTeam,
@@ -24,16 +37,15 @@ export const TeamRank: VFC<TeamRankProps> = ({ teams, rank, onDropTeam, onDropPl
     }),
   });
 
-  const isActive = isOver;
   let backgroundColor = '#242424';
-  if (isActive) {
+  if (isOver) {
     backgroundColor = '#3a3a3a';
   }
 
   return (
     <div>
       {rank === 0 ? (
-        <Typography>verfügbare Teilnehmer</Typography>
+        <Typography>verfügbare Teams</Typography>
       ) : (
         <Typography>{`${rank}. Platz`}</Typography>
       )}
@@ -48,9 +60,24 @@ export const TeamRank: VFC<TeamRankProps> = ({ teams, rank, onDropTeam, onDropPl
           backgroundColor,
         }}
       >
-        {teams.map(({ id, players }) => (
-          <Team key={id} id={id} onDropPlayer={onDropPlayerOnTeam(id)} players={players} />
-        ))}
+        {rank === 0 &&
+          Array.from(Array(getHighestTeam() + 2).keys())
+            .filter(
+              (teamId) =>
+                teamId !== 0 && (teamRanks[teamId] === 0 || teamRanks[teamId] === undefined),
+            )
+            .map((teamId) => (
+              <Team
+                key={teamId}
+                id={teamId}
+                onDropPlayer={onDropPlayerOnTeam(teamId)}
+                players={getPlayerObjectsFromTeam(teamId)}
+              />
+            ))}
+        {rank !== 0 &&
+          teams.map(({ id, players }) => (
+            <Team key={id} id={id} onDropPlayer={onDropPlayerOnTeam(id)} players={players} />
+          ))}
         {hoveredItem && isOver && !teams.find(({ id }) => hoveredItem.id === id) && (
           <Team
             key={hoveredItem.id}
