@@ -1,6 +1,7 @@
 import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
 import { Button, InputLabel, MenuItem, Paper, Select, Stack, Typography } from '@mui/material';
+import { Box } from '@mui/system';
 import { useCallback, useEffect, useState, VFC } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -9,61 +10,69 @@ import { GqlFullPlayerFragment } from '../../../graphql/fragments/__generated__/
 import { useCreateMatchMutation } from '../../../graphql/mutations/__generated__/createMatch';
 import { useGamesQuery } from '../../../graphql/queries/__generated__/games';
 import { usePlayersQuery } from '../../../graphql/queries/__generated__/players';
-import { GqlMatchCreateInput } from '../../../graphql/types';
 import { sortByName } from '../../../helpers/sortByName';
-import { Rank } from './Rank';
+import { PlayerTeam, Team } from './Team';
+import { TeamRank } from './TeamRank';
 
 const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-export const CreateMatch: VFC = () => {
+type TeamsObject = Record<string, number>;
+type RanksObject = Record<number, number>;
+
+export const CreateTeamMatch: VFC = () => {
   const { data: playersData, loading: playersLoading } = usePlayersQuery();
   const { data: gamesData, loading: gamesLoading } = useGamesQuery();
   const [createMatchMutation] = useCreateMatchMutation();
   const apolloClient = useApolloClient();
 
-  const [playerRanks, setPlayerRanks] = useState<Record<string, number>>({});
+  const [playerTeams, setPlayerTeams] = useState<TeamsObject>({});
+  const [teamRanks, setTeamRanks] = useState<RanksObject>({ 0: 0, 1: 0 });
   const [game, setGame] = useState<string>('');
 
   const loading = playersLoading || gamesLoading;
 
-  const setInitialData = useCallback(() => {
+  const setInitialTeamData = useCallback(() => {
     if (gamesData && playersData) {
-      const initialPlayerRanks: Record<string, number> = {};
+      const initialPlayerTeams: TeamsObject = {};
       playersData.players.forEach(({ id }) => {
-        initialPlayerRanks[id] = 0;
+        initialPlayerTeams[id] = 0;
       });
-      setPlayerRanks(initialPlayerRanks);
+      setPlayerTeams(initialPlayerTeams);
     }
   }, [gamesData, playersData]);
 
   useEffect(() => {
-    setInitialData();
-  }, [gamesData, playersData, setInitialData]);
+    setInitialTeamData();
+  }, [gamesData, playersData, setInitialTeamData]);
 
-  const getHighestRank = () => {
-    let highestRank = 0;
-    Object.keys(playerRanks).forEach((playerId) => {
-      if (playerRanks[playerId] > highestRank) {
-        highestRank = playerRanks[playerId];
+  const getHighestTeam = () => {
+    let highestTeam = 0;
+    Object.keys(playerTeams).forEach((playerId) => {
+      if (playerTeams[playerId] > highestTeam) {
+        highestTeam = playerTeams[playerId];
       }
     });
-    return highestRank;
+    return highestTeam;
   };
 
-  const onDrop = (rank: number) => (player: Pick<GqlFullPlayerFragment, 'id' | 'name'>) => {
-    setPlayerRanks({ ...playerRanks, [player.id]: rank });
+  const onDropPlayer = (team: number) => (player: Pick<GqlFullPlayerFragment, 'id' | 'name'>) => {
+    setPlayerTeams({ ...playerTeams, [player.id]: team });
   };
 
-  const getPlayerObjectsFromRank = (rank: number) => {
-    const playerIds = Object.keys(playerRanks);
+  const onDropTeam = (rank: number) => (team: PlayerTeam) => {
+    setTeamRanks({ ...teamRanks, [team.id]: rank });
+  };
+
+  const getPlayerObjectsFromTeam = (team: number) => {
+    const playerIds = Object.keys(playerTeams);
 
     let players: Pick<GqlFullPlayerFragment, 'id' | 'name'>[] = [];
 
     playerIds.forEach((playerId) => {
-      if (playerRanks[playerId] === rank) {
+      if (playerTeams[playerId] === team) {
         const player = playersData?.players.find(({ id }) => playerId === id);
 
         if (player) {
@@ -77,31 +86,25 @@ export const CreateMatch: VFC = () => {
     return players.sort(sortByName);
   };
 
-  const createMatch = async () => {
-    const playerIds = Object.keys(playerRanks);
+  const getTeamObjectsFromRank = (rank: number) => {
+    const teamIds = Object.keys(teamRanks);
 
-    let playerRankArray: { playerId: string; rank: number }[] = [];
+    let teams: PlayerTeam[] = [];
 
-    playerIds.forEach((playerId) => {
-      if (playerRanks[playerId] !== 0) {
-        const player = playersData?.players.find(({ id }) => playerId === id);
-
-        if (player) {
-          playerRankArray = [...playerRankArray, { playerId, rank: playerRanks[playerId] }];
-        } else {
-          throw new Error('Player not found');
-        }
+    teamIds.forEach((teamId) => {
+      const id = Number(teamId);
+      if (teamRanks[id] === rank) {
+        teams = [...teams, { id, players: getPlayerObjectsFromTeam(id) }];
       }
     });
 
-    const matchCreateInput: GqlMatchCreateInput = {
-      gameId: game || '',
-      playerRankings: playerRankArray,
-    };
+    return teams.sort((a, b) => a.id - b.id);
+  };
 
-    await createMatchMutation({ variables: { data: matchCreateInput } });
+  const createMatch = async () => {
+    // TODO: send
 
-    setInitialData();
+    setInitialTeamData();
 
     setGame(gamesData?.games[0]?.id || '');
 
@@ -146,14 +149,39 @@ export const CreateMatch: VFC = () => {
             </Select>
             <DndProvider backend={HTML5Backend}>
               <Stack spacing={2} sx={{ marginTop: 5 }}>
-                {Array.from(Array(getHighestRank() + 2).keys()).map((rank) => (
-                  <Rank
-                    key={rank}
-                    rank={rank}
-                    onDrop={onDrop(rank)}
-                    players={getPlayerObjectsFromRank(rank)}
-                  />
-                ))}
+                <Team
+                  id={0}
+                  onDropPlayer={onDropPlayer(0)}
+                  players={getPlayerObjectsFromTeam(0)}
+                />
+              </Stack>
+              <Box sx={{ marginTop: 5 }}>
+                <Typography>verfügbare Teams</Typography>
+                <Stack direction="row" spacing={2}>
+                  {Array.from(Array(getHighestTeam() + 2).keys())
+                    .filter((teamId) => teamId !== 0)
+                    .map((teamId) => (
+                      <Team
+                        key={teamId}
+                        id={teamId}
+                        onDropPlayer={onDropPlayer(teamId)}
+                        players={getPlayerObjectsFromTeam(teamId)}
+                      />
+                    ))}
+                </Stack>
+              </Box>
+              <Stack spacing={2} sx={{ marginTop: 5 }}>
+                {Array.from(Array(2 + 2).keys())
+                  .filter((rank) => rank !== 0)
+                  .map((rank) => (
+                    <TeamRank
+                      key={rank}
+                      rank={rank}
+                      onDropTeam={onDropTeam(rank)}
+                      teams={getTeamObjectsFromRank(rank)}
+                      onDropPlayerOnTeam={onDropPlayer}
+                    />
+                  ))}
               </Stack>
             </DndProvider>
           </>

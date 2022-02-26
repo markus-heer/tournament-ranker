@@ -10,7 +10,7 @@ export const Player: VFC<Pick<GqlFullPlayerFragment, 'id' | 'name'>> = ({ id, na
       type: 'player',
       item: { id, name },
     }),
-    [name],
+    [id, name],
   );
 
   return (

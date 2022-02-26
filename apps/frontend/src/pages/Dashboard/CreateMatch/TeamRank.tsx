@@ -3,18 +3,21 @@ import { VFC } from 'react';
 import { useDrop } from 'react-dnd';
 
 import { GqlFullPlayerFragment } from '../../../graphql/fragments/__generated__/fullPlayer';
-import { Player } from './Player';
+import { PlayerTeam, Team } from './Team';
 
-interface RankProps {
-  players: Pick<GqlFullPlayerFragment, 'id' | 'name'>[];
+interface TeamRankProps {
+  teams: PlayerTeam[];
   rank: number;
-  onDrop: (teamId: Pick<GqlFullPlayerFragment, 'id' | 'name'>) => void;
+  onDropTeam: (team: PlayerTeam) => void;
+  onDropPlayerOnTeam: (
+    team: number,
+  ) => (player: Pick<GqlFullPlayerFragment, 'id' | 'name'>) => void;
 }
 
-export const Rank: VFC<RankProps> = ({ players, rank, onDrop }) => {
+export const TeamRank: VFC<TeamRankProps> = ({ teams, rank, onDropTeam, onDropPlayerOnTeam }) => {
   const [{ isOver, hoveredItem }, drop] = useDrop({
-    accept: 'player',
-    drop: onDrop,
+    accept: 'team',
+    drop: onDropTeam,
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       hoveredItem: monitor.getItem(),
@@ -45,11 +48,16 @@ export const Rank: VFC<RankProps> = ({ players, rank, onDrop }) => {
           backgroundColor,
         }}
       >
-        {players.map(({ id, name }) => (
-          <Player key={id} name={name} id={id} />
+        {teams.map(({ id, players }) => (
+          <Team key={id} id={id} onDropPlayer={onDropPlayerOnTeam(id)} players={players} />
         ))}
-        {hoveredItem && isOver && !players.find(({ id }) => hoveredItem.id === id) && (
-          <Player key={hoveredItem.id} name={hoveredItem.name} id={hoveredItem.id} />
+        {hoveredItem && isOver && !teams.find(({ id }) => hoveredItem.id === id) && (
+          <Team
+            key={hoveredItem.id}
+            id={hoveredItem.id}
+            onDropPlayer={onDropPlayerOnTeam(hoveredItem.id)}
+            players={hoveredItem.players}
+          />
         )}
       </Paper>
     </div>
