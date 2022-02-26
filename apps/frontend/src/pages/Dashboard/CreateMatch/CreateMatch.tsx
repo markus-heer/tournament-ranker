@@ -11,7 +11,7 @@ import { useGamesQuery } from '../../../graphql/queries/__generated__/games';
 import { usePlayersQuery } from '../../../graphql/queries/__generated__/players';
 import { GqlMatchCreateInput } from '../../../graphql/types';
 import { sortByName } from '../../../helpers/sortByName';
-import { Team } from './Team';
+import { Rank } from './Rank';
 
 const FormWrapper = styled.div`
   display: flex;
@@ -147,7 +147,7 @@ export const CreateMatch: VFC = () => {
             <DndProvider backend={HTML5Backend}>
               <Stack spacing={2} sx={{ marginTop: 5 }}>
                 {Array.from(Array(getHighestRank() + 2).keys()).map((rank) => (
-                  <Team
+                  <Rank
                     key={rank}
                     rank={rank}
                     onDrop={onDrop(rank)}

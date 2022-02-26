@@ -5,13 +5,13 @@ import { useDrop } from 'react-dnd';
 import { GqlFullPlayerFragment } from '../../../graphql/fragments/__generated__/fullPlayer';
 import { Player } from './Player';
 
-interface TeamProps {
+interface RankProps {
   players: Pick<GqlFullPlayerFragment, 'id' | 'name'>[];
   rank: number;
   onDrop: (player: Pick<GqlFullPlayerFragment, 'id' | 'name'>) => void;
 }
 
-export const Team: VFC<TeamProps> = ({ players, rank, onDrop }) => {
+export const Rank: VFC<RankProps> = ({ players, rank, onDrop }) => {
   const [{ isOver, hoveredItem }, drop] = useDrop({
     accept: 'player',
     drop: onDrop,
