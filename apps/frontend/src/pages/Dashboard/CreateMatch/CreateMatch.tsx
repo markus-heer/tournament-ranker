@@ -1,17 +1,16 @@
 import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
-import { Button, InputLabel, MenuItem, Paper, Select, Stack, Typography } from '@mui/material';
+import { Button, InputLabel, MenuItem, Paper, Select, Typography } from '@mui/material';
 import { useCallback, useEffect, useState, VFC } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import { GqlFullPlayerFragment } from '../../../graphql/fragments/__generated__/fullPlayer';
 import { useCreateMatchMutation } from '../../../graphql/mutations/__generated__/createMatch';
 import { useGamesQuery } from '../../../graphql/queries/__generated__/games';
 import { usePlayersQuery } from '../../../graphql/queries/__generated__/players';
-import { GqlMatchCreateInput } from '../../../graphql/types';
-import { sortByName } from '../../../helpers/sortByName';
-import { Rank } from './Rank';
+import { GqlGameType, GqlMatchCreateInput } from '../../../graphql/types';
+import { SingleMatchForm } from './SingleMatchForm';
+import { TeamMatchForm } from './TeamMatchForm';
 
 const FormWrapper = styled.div`
   display: flex;
@@ -43,42 +42,9 @@ export const CreateMatch: VFC = () => {
     setInitialData();
   }, [gamesData, playersData, setInitialData]);
 
-  const getHighestRank = () => {
-    let highestRank = 0;
-    Object.keys(playerRanks).forEach((playerId) => {
-      if (playerRanks[playerId] > highestRank) {
-        highestRank = playerRanks[playerId];
-      }
-    });
-    return highestRank;
-  };
-
-  const onDrop = (rank: number) => (player: Pick<GqlFullPlayerFragment, 'id' | 'name'>) => {
-    setPlayerRanks({ ...playerRanks, [player.id]: rank });
-  };
-
-  const getPlayerObjectsFromRank = (rank: number) => {
-    const playerIds = Object.keys(playerRanks);
-
-    let players: Pick<GqlFullPlayerFragment, 'id' | 'name'>[] = [];
-
-    playerIds.forEach((playerId) => {
-      if (playerRanks[playerId] === rank) {
-        const player = playersData?.players.find(({ id }) => playerId === id);
-
-        if (player) {
-          players = [...players, { id: playerId, name: player.name }];
-        } else {
-          throw new Error('Player not found');
-        }
-      }
-    });
-
-    return players.sort(sortByName);
-  };
-
   const createMatch = async () => {
-    const playerIds = Object.keys(playerRanks);
+    alert('Not yet implemented');
+    /* const playerIds = Object.keys(playerRanks);
 
     let playerRankArray: { playerId: string; rank: number }[] = [];
 
@@ -107,7 +73,7 @@ export const CreateMatch: VFC = () => {
 
     await apolloClient.refetchQueries({
       include: 'active',
-    });
+    }); */
   };
 
   if (loading || !gamesData || !playersData) return <div>Loading...</div>;
@@ -138,23 +104,21 @@ export const CreateMatch: VFC = () => {
               label="Spiel"
               onChange={(e) => setGame(e.target.value)}
             >
-              {gamesData?.games.map(({ id, name }) => (
+              {gamesData?.games.map(({ id, name, gameType }) => (
                 <MenuItem key={id} value={id}>
                   {name}
+                  {gameType === GqlGameType.Team ? ' (Team)' : ''}
                 </MenuItem>
               ))}
             </Select>
             <DndProvider backend={HTML5Backend}>
-              <Stack spacing={2} sx={{ marginTop: 5 }}>
-                {Array.from(Array(getHighestRank() + 2).keys()).map((rank) => (
-                  <Rank
-                    key={rank}
-                    rank={rank}
-                    onDrop={onDrop(rank)}
-                    players={getPlayerObjectsFromRank(rank)}
-                  />
-                ))}
-              </Stack>
+              {gamesData?.games.find(
+                ({ gameType, id }) => id === game && gameType === GqlGameType.Single,
+              ) ? (
+                <SingleMatchForm gamesData={gamesData} playersData={playersData} />
+              ) : (
+                <TeamMatchForm gamesData={gamesData} playersData={playersData} />
+              )}
             </DndProvider>
           </>
         ) : (

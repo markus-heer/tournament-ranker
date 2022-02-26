@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { VFC } from 'react';
 
-import { CreateTeamMatch } from './CreateMatch/CreateTeamMatch';
+import { CreateMatch } from './CreateMatch/CreateMatch';
 import { Leaderboard } from './Leaderboard/Leaderboard';
 import { MatchHistory } from './MatchHistory/MatchHistory';
 
@@ -16,7 +16,7 @@ export const Dashboard: VFC = () => {
   return (
     <Wrapper>
       <Leaderboard />
-      <CreateTeamMatch />
+      <CreateMatch />
       <MatchHistory />
     </Wrapper>
   );
