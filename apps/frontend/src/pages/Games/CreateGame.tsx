@@ -1,6 +1,6 @@
 import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
-import { Button, Paper, TextField, Typography } from '@mui/material';
+import { Button, InputLabel, MenuItem, Paper, Select, TextField, Typography } from '@mui/material';
 import { useState, VFC } from 'react';
 
 import { useCreateGameMutation } from '../../graphql/mutations/__generated__/createGame';
@@ -23,10 +23,11 @@ export const CreateGame: VFC = () => {
   const apolloClient = useApolloClient();
 
   const [name, setName] = useState<string>('');
+  const [gameType, setGameType] = useState<GqlGameType | ''>('');
 
   const createGame = async () => {
-    if (name) {
-      await createGameMutation({ variables: { data: { name, gameType: GqlGameType.Single } } });
+    if (name && gameType !== '') {
+      await createGameMutation({ variables: { data: { name, gameType } } });
 
       setName('');
 
@@ -56,8 +57,21 @@ export const CreateGame: VFC = () => {
             onKeyPress={onKeyPress}
             onChange={(e) => setName(e.target.value)}
           />
+          <InputLabel id="game-type-label" sx={{ marginTop: 4 }}>
+            Typ
+          </InputLabel>
+          <Select
+            labelId="game-type-label"
+            value={gameType}
+            label="Spieltyp"
+            onChange={(e) => setGameType(e.target.value as GqlGameType | '')}
+          >
+            <MenuItem value={''}>Spieltyp wählen</MenuItem>
+            <MenuItem value={GqlGameType.Single}>Single</MenuItem>
+            <MenuItem value={GqlGameType.Team}>Team</MenuItem>
+          </Select>
         </FormWrapper>
-        <Button onClick={createGame} sx={{ marginTop: 5 }} disabled={!name}>
+        <Button onClick={createGame} sx={{ marginTop: 5 }} disabled={!name || !gameType}>
           Spiel erstellen
         </Button>
       </Wrapper>

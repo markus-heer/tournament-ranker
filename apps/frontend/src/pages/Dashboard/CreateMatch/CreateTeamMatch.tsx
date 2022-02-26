@@ -9,6 +9,7 @@ import { GqlFullPlayerFragment } from '../../../graphql/fragments/__generated__/
 import { useCreateMatchMutation } from '../../../graphql/mutations/__generated__/createMatch';
 import { useGamesQuery } from '../../../graphql/queries/__generated__/games';
 import { usePlayersQuery } from '../../../graphql/queries/__generated__/players';
+import { GqlGameType } from '../../../graphql/types';
 import { sortByName } from '../../../helpers/sortByName';
 import { PlayerTeam, Team } from './Team';
 import { RanksObject, TeamRank } from './TeamRank';
@@ -147,9 +148,10 @@ export const CreateTeamMatch: VFC = () => {
               label="Spiel"
               onChange={(e) => setGame(e.target.value)}
             >
-              {gamesData?.games.map(({ id, name }) => (
+              {gamesData?.games.map(({ id, name, gameType }) => (
                 <MenuItem key={id} value={id}>
                   {name}
+                  {gameType === GqlGameType.Team ? ' (Team)' : ''}
                 </MenuItem>
               ))}
             </Select>

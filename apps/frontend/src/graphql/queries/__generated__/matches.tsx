@@ -15,7 +15,13 @@ export type GqlMatchesQuery = {
     __typename?: 'Match';
     id: string;
     createdAt: string;
-    game: { __typename?: 'Game'; id: string; name: string; numberOfMatches: number };
+    game: {
+      __typename?: 'Game';
+      id: string;
+      name: string;
+      gameType: Types.GqlGameType;
+      numberOfMatches: number;
+    };
     eloInfo: Array<{
       __typename?: 'EloInfo';
       rank: number;

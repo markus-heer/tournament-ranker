@@ -11,7 +11,13 @@ export type GqlCreateGameMutationVariables = Types.Exact<{
 
 export type GqlCreateGameMutation = {
   __typename?: 'Mutation';
-  createGame: { __typename?: 'Game'; id: string; name: string; numberOfMatches: number };
+  createGame: {
+    __typename?: 'Game';
+    id: string;
+    name: string;
+    gameType: Types.GqlGameType;
+    numberOfMatches: number;
+  };
 };
 
 export const CreateGameDocument = gql`

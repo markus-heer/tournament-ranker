@@ -4,6 +4,7 @@ export default gql`
   fragment fullGame on Game {
     id
     name
+    gameType
     numberOfMatches
   }
 `;
