@@ -23,10 +23,10 @@ export const CreateGame: VFC = () => {
   const apolloClient = useApolloClient();
 
   const [name, setName] = useState<string>('');
-  const [gameType, setGameType] = useState<GqlGameType | ''>('');
+  const [gameType, setGameType] = useState<GqlGameType>(GqlGameType.Single);
 
   const createGame = async () => {
-    if (name && gameType !== '') {
+    if (name) {
       await createGameMutation({ variables: { data: { name, gameType } } });
 
       setName('');
@@ -64,9 +64,8 @@ export const CreateGame: VFC = () => {
             labelId="game-type-label"
             value={gameType}
             label="Spieltyp"
-            onChange={(e) => setGameType(e.target.value as GqlGameType | '')}
+            onChange={(e) => setGameType(e.target.value as GqlGameType)}
           >
-            <MenuItem value={''}>Spieltyp wählen</MenuItem>
             <MenuItem value={GqlGameType.Single}>Single</MenuItem>
             <MenuItem value={GqlGameType.Team}>Team</MenuItem>
           </Select>

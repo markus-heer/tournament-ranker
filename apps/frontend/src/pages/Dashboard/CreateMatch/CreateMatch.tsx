@@ -58,7 +58,7 @@ export const CreateMatch: VFC = () => {
               {gamesData?.games.map(({ id, name, gameType }) => (
                 <MenuItem key={id} value={id}>
                   {name}
-                  {gameType === GqlGameType.Team ? ' (Team)' : ''}
+                  {gameType === GqlGameType.Team ? ' (Team)' : ' (Single)'}
                 </MenuItem>
               ))}
             </Select>
