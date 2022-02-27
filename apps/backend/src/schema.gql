@@ -38,7 +38,7 @@ type Match {
   matchResults: [MatchResult!]!
 }
 
-input MatchCreateInput {
+input MatchCreateSingleInput {
   gameId: String!
   playerRankings: [PlayerRanking!]!
 }
@@ -53,8 +53,8 @@ type MatchResult {
 
 type Mutation {
   createGame(data: GameCreateInput!): Game!
-  createMatch(data: MatchCreateInput!): Match!
   createPlayer(data: PlayerCreateInput!): Player!
+  createSingleMatch(data: MatchCreateSingleInput!): Match!
   deleteGame(id: ID!): Game!
   deleteMatch(id: ID!): Match!
   deletePlayer(id: ID!): Player!

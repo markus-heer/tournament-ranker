@@ -10,7 +10,7 @@ export class PlayerRanking {
 }
 
 @InputType()
-export class MatchCreateInput {
+export class MatchCreateSingleInput {
   @Field()
   gameId: string;
 

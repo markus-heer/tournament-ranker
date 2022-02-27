@@ -9,7 +9,7 @@ import {
 } from 'src/modules/matches/helpers/eloCalculation';
 import { EloInfo } from 'src/modules/matches/models/EloInfo.model';
 import { Match } from 'src/modules/matches/models/Match.model';
-import { MatchCreateInput } from 'src/modules/matches/models/MatchCreateInput.model';
+import { MatchCreateSingleInput } from 'src/modules/matches/models/MatchCreateSingleInput.model';
 import { Player } from 'src/modules/players/models/Player.model';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 
@@ -62,7 +62,7 @@ export class MatchesService {
     return matches._count;
   }
 
-  async create({ gameId, playerRankings }: MatchCreateInput): Promise<Match> {
+  async createSingleMatch({ gameId, playerRankings }: MatchCreateSingleInput): Promise<Match> {
     const match = await this.prisma.match.create({ data: { gameId } });
 
     const rankingsWithElo: PlayerRankingWithElo[] = await Promise.all(

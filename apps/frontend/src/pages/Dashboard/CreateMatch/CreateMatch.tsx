@@ -8,7 +8,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useCreateMatchMutation } from '../../../graphql/mutations/__generated__/createMatch';
 import { useGamesQuery } from '../../../graphql/queries/__generated__/games';
 import { usePlayersQuery } from '../../../graphql/queries/__generated__/players';
-import { GqlGameType, GqlMatchCreateInput } from '../../../graphql/types';
+import { GqlGameType, GqlMatchCreateSingleInput } from '../../../graphql/types';
 import { SingleMatchForm } from './SingleMatchForm';
 import { TeamMatchForm } from './TeamMatchForm';
 

@@ -49,7 +49,7 @@ export type GqlMatch = {
   matchResults: Array<GqlMatchResult>;
 };
 
-export type GqlMatchCreateInput = {
+export type GqlMatchCreateSingleInput = {
   gameId: Scalars['String'];
   playerRankings: Array<GqlPlayerRanking>;
 };
@@ -66,8 +66,8 @@ export type GqlMatchResult = {
 export type GqlMutation = {
   __typename?: 'Mutation';
   createGame: GqlGame;
-  createMatch: GqlMatch;
   createPlayer: GqlPlayer;
+  createSingleMatch: GqlMatch;
   deleteGame: GqlGame;
   deleteMatch: GqlMatch;
   deletePlayer: GqlPlayer;
@@ -77,12 +77,12 @@ export type GqlMutationCreateGameArgs = {
   data: GqlGameCreateInput;
 };
 
-export type GqlMutationCreateMatchArgs = {
-  data: GqlMatchCreateInput;
-};
-
 export type GqlMutationCreatePlayerArgs = {
   data: GqlPlayerCreateInput;
+};
+
+export type GqlMutationCreateSingleMatchArgs = {
+  data: GqlMatchCreateSingleInput;
 };
 
 export type GqlMutationDeleteGameArgs = {

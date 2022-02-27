@@ -7,7 +7,7 @@ import { Match } from 'src/modules/matches/models/Match.model';
 
 import { MatchResultsService } from '../match-results/match-results.service';
 import { MatchResult } from '../match-results/models/MatchResults.model';
-import { MatchCreateInput } from './models/MatchCreateInput.model';
+import { MatchCreateSingleInput } from './models/MatchCreateSingleInput.model';
 
 @Resolver(() => Match)
 export class MatchesResolver {
@@ -23,8 +23,8 @@ export class MatchesResolver {
   }
 
   @Mutation(() => Match)
-  async createMatch(@Args('data') data: MatchCreateInput): Promise<Match> {
-    return this.matchesService.create(data);
+  async createSingleMatch(@Args('data') data: MatchCreateSingleInput): Promise<Match> {
+    return this.matchesService.createSingleMatch(data);
   }
 
   @Mutation(() => Match)

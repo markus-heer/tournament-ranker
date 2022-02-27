@@ -9,7 +9,7 @@
     "test:watch": "react-scripts test",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
     "prettier": "prettier --write .",
-    "generate:graphql": "graphql-codegen --config graphql-codegen.yml"
+    "generate:graphql": "graphql-codegen --config graphql-codegen.yml && prettier --write ."
   },
   "dependencies": {
     "@apollo/client": "^3.5.6",

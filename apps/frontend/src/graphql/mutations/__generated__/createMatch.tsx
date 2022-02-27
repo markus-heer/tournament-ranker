@@ -5,60 +5,60 @@ import { gql } from '@apollo/client';
 import { FullMatchFragmentDoc } from '../../fragments/__generated__/fullMatch';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {};
-export type GqlCreateMatchMutationVariables = Types.Exact<{
-  data: Types.GqlMatchCreateInput;
+export type GqlCreateSingleMatchMutationVariables = Types.Exact<{
+  data: Types.GqlMatchCreateSingleInput;
 }>;
 
-export type GqlCreateMatchMutation = {
+export type GqlCreateSingleMatchMutation = {
   __typename?: 'Mutation';
-  createMatch: { __typename?: 'Match'; id: string; createdAt: string };
+  createSingleMatch: { __typename?: 'Match'; id: string; createdAt: string };
 };
 
-export const CreateMatchDocument = gql`
-  mutation createMatch($data: MatchCreateInput!) {
-    createMatch(data: $data) {
+export const CreateSingleMatchDocument = gql`
+  mutation createSingleMatch($data: MatchCreateSingleInput!) {
+    createSingleMatch(data: $data) {
       ...fullMatch
     }
   }
   ${FullMatchFragmentDoc}
 `;
-export type GqlCreateMatchMutationFn = Apollo.MutationFunction<
-  GqlCreateMatchMutation,
-  GqlCreateMatchMutationVariables
+export type GqlCreateSingleMatchMutationFn = Apollo.MutationFunction<
+  GqlCreateSingleMatchMutation,
+  GqlCreateSingleMatchMutationVariables
 >;
 
 /**
- * __useCreateMatchMutation__
+ * __useCreateSingleMatchMutation__
  *
- * To run a mutation, you first call `useCreateMatchMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateMatchMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateSingleMatchMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSingleMatchMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createMatchMutation, { data, loading, error }] = useCreateMatchMutation({
+ * const [createSingleMatchMutation, { data, loading, error }] = useCreateSingleMatchMutation({
  *   variables: {
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useCreateMatchMutation(
+export function useCreateSingleMatchMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    GqlCreateMatchMutation,
-    GqlCreateMatchMutationVariables
+    GqlCreateSingleMatchMutation,
+    GqlCreateSingleMatchMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<GqlCreateMatchMutation, GqlCreateMatchMutationVariables>(
-    CreateMatchDocument,
+  return Apollo.useMutation<GqlCreateSingleMatchMutation, GqlCreateSingleMatchMutationVariables>(
+    CreateSingleMatchDocument,
     options,
   );
 }
-export type CreateMatchMutationHookResult = ReturnType<typeof useCreateMatchMutation>;
-export type CreateMatchMutationResult = Apollo.MutationResult<GqlCreateMatchMutation>;
-export type CreateMatchMutationOptions = Apollo.BaseMutationOptions<
-  GqlCreateMatchMutation,
-  GqlCreateMatchMutationVariables
+export type CreateSingleMatchMutationHookResult = ReturnType<typeof useCreateSingleMatchMutation>;
+export type CreateSingleMatchMutationResult = Apollo.MutationResult<GqlCreateSingleMatchMutation>;
+export type CreateSingleMatchMutationOptions = Apollo.BaseMutationOptions<
+  GqlCreateSingleMatchMutation,
+  GqlCreateSingleMatchMutationVariables
 >;

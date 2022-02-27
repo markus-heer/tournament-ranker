@@ -1,4 +1,4 @@
-import { PlayerRanking } from 'src/modules/matches/models/MatchCreateInput.model';
+import { PlayerRanking } from 'src/modules/matches/models/MatchCreateSingleInput.model';
 
 export interface PlayerRankingWithElo extends PlayerRanking {
   elo: number;
