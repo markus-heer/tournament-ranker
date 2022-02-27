@@ -69,10 +69,10 @@ export const CreateGame: VFC = () => {
             <MenuItem value={GqlGameType.Single}>Single</MenuItem>
             <MenuItem value={GqlGameType.Team}>Team</MenuItem>
           </Select>
+          <Button onClick={createGame} sx={{ marginTop: 5 }} disabled={!name || !gameType}>
+            Spiel erstellen
+          </Button>
         </FormWrapper>
-        <Button onClick={createGame} sx={{ marginTop: 5 }} disabled={!name || !gameType}>
-          Spiel erstellen
-        </Button>
       </Wrapper>
     </Paper>
   );

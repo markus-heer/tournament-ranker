@@ -55,10 +55,10 @@ export const CreatePlayer: VFC = () => {
             onChange={(e) => setName(e.target.value)}
             onKeyPress={onKeyPress}
           />
+          <Button onClick={createPlayer} sx={{ marginTop: 5 }} disabled={!name}>
+            Spieler erstellen
+          </Button>
         </FormWrapper>
-        <Button onClick={createPlayer} sx={{ marginTop: 5 }} disabled={!name}>
-          Spieler erstellen
-        </Button>
       </Wrapper>
     </Paper>
   );
