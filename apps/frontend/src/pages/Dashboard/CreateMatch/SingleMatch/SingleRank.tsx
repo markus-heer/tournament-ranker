@@ -2,8 +2,8 @@ import { Paper, Typography } from '@mui/material';
 import { VFC } from 'react';
 import { useDrop } from 'react-dnd';
 
-import { GqlFullPlayerFragment } from '../../../graphql/fragments/__generated__/fullPlayer';
-import { Player } from './Player';
+import { GqlFullPlayerFragment } from '../../../../graphql/fragments/__generated__/fullPlayer';
+import { Player } from '../Player';
 
 interface RankProps {
   players: Pick<GqlFullPlayerFragment, 'id' | 'name'>[];
@@ -11,7 +11,7 @@ interface RankProps {
   onDrop: (teamId: Pick<GqlFullPlayerFragment, 'id' | 'name'>) => void;
 }
 
-export const Rank: VFC<RankProps> = ({ players, rank, onDrop }) => {
+export const SingleRank: VFC<RankProps> = ({ players, rank, onDrop }) => {
   const [{ isOver, hoveredItem }, drop] = useDrop({
     accept: 'player',
     drop: onDrop,
@@ -32,7 +32,7 @@ export const Rank: VFC<RankProps> = ({ players, rank, onDrop }) => {
       {rank === 0 ? (
         <Typography>verfügbare Teilnehmer</Typography>
       ) : (
-        <Typography>{`${rank}. Platz`}</Typography>
+        <Typography variant={'h6'}>{`${rank}. Platz`}</Typography>
       )}
       <Paper
         ref={drop}

@@ -10,9 +10,9 @@ export const games: Prisma.GameCreateArgs[] = [
   },
   {
     data: {
-      id: 'schach',
-      name: 'Schach',
-      gameType: GameType.SINGLE,
+      id: 'kicker',
+      name: 'Kicker',
+      gameType: GameType.TEAM,
     },
   },
 ];

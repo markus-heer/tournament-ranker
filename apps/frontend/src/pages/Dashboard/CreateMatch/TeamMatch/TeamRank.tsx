@@ -1,9 +1,9 @@
-import { Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import { VFC } from 'react';
 import { useDrop } from 'react-dnd';
 
-import { GqlFullPlayerFragment } from '../../../graphql/fragments/__generated__/fullPlayer';
-import { PlayerTeam, Team } from './Team';
+import { GqlFullPlayerFragment } from '../../../../graphql/fragments/__generated__/fullPlayer';
+import { PlayerTeam, Team } from '../Team';
 
 export type RanksObject = Record<number, number>;
 
@@ -43,11 +43,11 @@ export const TeamRank: VFC<TeamRankProps> = ({
   }
 
   return (
-    <div>
+    <Box>
       {rank === 0 ? (
         <Typography>verfügbare Teams</Typography>
       ) : (
-        <Typography>{`${rank}. Platz`}</Typography>
+        <Typography variant={'h6'}>{`${rank}. Platz`}</Typography>
       )}
       <Paper
         ref={drop}
@@ -87,6 +87,6 @@ export const TeamRank: VFC<TeamRankProps> = ({
           />
         )}
       </Paper>
-    </div>
+    </Box>
   );
 };

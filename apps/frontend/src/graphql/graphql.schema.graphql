@@ -39,6 +39,11 @@ input MatchCreateSingleInput {
   playerRankings: [PlayerRanking!]!
 }
 
+input MatchCreateTeamInput {
+  gameId: String!
+  teamRankings: [TeamRanking!]!
+}
+
 type MatchResult {
   eloChange: Float!
   id: ID!
@@ -51,6 +56,7 @@ type Mutation {
   createGame(data: GameCreateInput!): Game!
   createPlayer(data: PlayerCreateInput!): Player!
   createSingleMatch(data: MatchCreateSingleInput!): Match!
+  createTeamMatch(data: MatchCreateTeamInput!): Match!
   deleteGame(id: ID!): Game!
   deleteMatch(id: ID!): Match!
   deletePlayer(id: ID!): Player!
@@ -77,4 +83,9 @@ type Query {
   matchResults: [MatchResult!]!
   matches: [Match!]!
   players: [Player!]!
+}
+
+input TeamRanking {
+  playerIds: [ID!]!
+  rank: Float!
 }

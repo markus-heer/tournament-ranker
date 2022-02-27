@@ -9,6 +9,7 @@ interface TeamProps {
   players: Pick<GqlFullPlayerFragment, 'id' | 'name'>[];
   id: number;
   onDropPlayer: (player: Pick<GqlFullPlayerFragment, 'id' | 'name'>) => void;
+  canDrag?: boolean;
 }
 
 export type PlayerTeam = {
@@ -16,10 +17,11 @@ export type PlayerTeam = {
   players: Pick<GqlFullPlayerFragment, 'id' | 'name'>[];
 };
 
-export const Team: VFC<TeamProps> = ({ players, id, onDropPlayer }) => {
+export const Team: VFC<TeamProps> = ({ players, id, onDropPlayer, canDrag = true }) => {
   const [, drag] = useDrag(
     () => ({
       type: 'team',
+      canDrag,
       item: { id, players },
     }),
     [id, players],
@@ -41,34 +43,41 @@ export const Team: VFC<TeamProps> = ({ players, id, onDropPlayer }) => {
   }
 
   return (
-    <Paper ref={drag} sx={{ padding: 1 }}>
-      {id === 0 ? (
-        <Typography>verfügbare Teilnehmer</Typography>
-      ) : (
-        <Typography>{`Team ${id}`}</Typography>
-      )}
+    <>
+      {id === 0 && <Typography sx={{ marginBottom: -2 }}>verfügbare Teilnehmer</Typography>}
       <Paper
-        ref={drop}
+        ref={drag}
         sx={{
-          display: 'flex',
-          flexDirection: id === 0 ? 'row' : 'column',
-          flexWrap: 'wrap',
-          gap: 1,
-          padding: 1,
-          minHeight: 88,
-          minWidth: 100,
-          backgroundColor,
+          padding: id === 0 ? 0 : 1,
+          cursor: canDrag ? 'grab' : 'default',
+          backgroundImage: id === 0 ? 'none' : undefined,
+          boxShadow: id === 0 ? 'none' : undefined,
         }}
       >
-        {players.map(({ id: playerId, name }) => (
-          <Player key={playerId} name={name} id={playerId} />
-        ))}
-        {hoveredItem &&
-          isOver &&
-          !players.find(({ id: playerId }) => hoveredItem.id === playerId) && (
-            <Player key={hoveredItem.id} name={hoveredItem.name} id={hoveredItem.id} />
-          )}
+        {id !== 0 && <Typography>{`Team ${id}`}</Typography>}
+        <Paper
+          ref={drop}
+          sx={{
+            display: 'flex',
+            flexDirection: id === 0 ? 'row' : 'column',
+            flexWrap: 'wrap',
+            gap: 1,
+            padding: 1,
+            minHeight: 88,
+            minWidth: 100,
+            backgroundColor,
+          }}
+        >
+          {players.map(({ id: playerId, name }) => (
+            <Player key={playerId} name={name} id={playerId} />
+          ))}
+          {hoveredItem &&
+            isOver &&
+            !players.find(({ id: playerId }) => hoveredItem.id === playerId) && (
+              <Player key={hoveredItem.id} name={hoveredItem.name} id={hoveredItem.id} />
+            )}
+        </Paper>
       </Paper>
-    </Paper>
+    </>
   );
 };

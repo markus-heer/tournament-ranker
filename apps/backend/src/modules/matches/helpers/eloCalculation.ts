@@ -1,7 +1,13 @@
 import { PlayerRanking } from 'src/modules/matches/models/MatchCreateSingleInput.model';
 
+import { TeamRanking } from '../models/MatchCreateTeamInput.model';
+
 export interface PlayerRankingWithElo extends PlayerRanking {
   elo: number;
+}
+
+export interface TeamRankingWithElo extends TeamRanking {
+  avgElo: number;
 }
 
 // https://de.wikipedia.org/wiki/Elo-Zahl#Anpassung_der_Elo-Zahl
@@ -24,12 +30,12 @@ export const calculateExpectedScores = (elo1: number, elo2: number) => {
   return { e1, e2: 1 - e1 };
 };
 
-export const buildTuples = (rankings: PlayerRankingWithElo[]) => {
+export const buildTuples = <T extends { rank: number }>(rankings: T[]) => {
   if (rankings.length < 2) {
     throw new Error('Amount has to be bigger than 2');
   }
 
-  let tuples: PlayerRankingWithElo[][] = [];
+  let tuples: T[][] = [];
 
   for (let i = 0; i < rankings.length; i += 1) {
     for (let j = i + 1; j < rankings.length; j += 1) {

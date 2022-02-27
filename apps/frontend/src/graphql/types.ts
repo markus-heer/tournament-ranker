@@ -54,6 +54,11 @@ export type GqlMatchCreateSingleInput = {
   playerRankings: Array<GqlPlayerRanking>;
 };
 
+export type GqlMatchCreateTeamInput = {
+  gameId: Scalars['String'];
+  teamRankings: Array<GqlTeamRanking>;
+};
+
 export type GqlMatchResult = {
   __typename?: 'MatchResult';
   eloChange: Scalars['Float'];
@@ -68,6 +73,7 @@ export type GqlMutation = {
   createGame: GqlGame;
   createPlayer: GqlPlayer;
   createSingleMatch: GqlMatch;
+  createTeamMatch: GqlMatch;
   deleteGame: GqlGame;
   deleteMatch: GqlMatch;
   deletePlayer: GqlPlayer;
@@ -83,6 +89,10 @@ export type GqlMutationCreatePlayerArgs = {
 
 export type GqlMutationCreateSingleMatchArgs = {
   data: GqlMatchCreateSingleInput;
+};
+
+export type GqlMutationCreateTeamMatchArgs = {
+  data: GqlMatchCreateTeamInput;
 };
 
 export type GqlMutationDeleteGameArgs = {
@@ -120,4 +130,9 @@ export type GqlQuery = {
   matchResults: Array<GqlMatchResult>;
   matches: Array<GqlMatch>;
   players: Array<GqlPlayer>;
+};
+
+export type GqlTeamRanking = {
+  playerIds: Array<Scalars['ID']>;
+  rank: Scalars['Float'];
 };
