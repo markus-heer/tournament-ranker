@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { InputLabel, MenuItem, Paper, Select, Typography } from '@mui/material';
-import { useState, VFC } from 'react';
+import { useEffect, useState, VFC } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
@@ -22,6 +22,10 @@ export const CreateMatch: VFC = () => {
   const [gameId, setGameId] = useState<string>('');
 
   const loading = playersLoading || gamesLoading;
+
+  useEffect(() => {
+    setGameId(gamesData?.games[0]?.id || '');
+  }, [setGameId, gamesData]);
 
   if (loading || !gamesData || !playersData) return <div>Loading...</div>;
 
@@ -66,14 +70,14 @@ export const CreateMatch: VFC = () => {
                   gamesData={gamesData}
                   playersData={playersData}
                   gameId={gameId}
-                  setGame={setGameId}
+                  setGameId={setGameId}
                 />
               ) : (
                 <TeamMatchForm
                   gamesData={gamesData}
                   playersData={playersData}
                   gameId={gameId}
-                  setGame={setGameId}
+                  setGameId={setGameId}
                 />
               )}
             </DndProvider>

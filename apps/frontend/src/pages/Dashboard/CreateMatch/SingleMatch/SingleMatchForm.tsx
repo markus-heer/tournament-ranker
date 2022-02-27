@@ -14,14 +14,14 @@ interface SingleMatchFormProps {
   gamesData: GqlGamesQuery;
   playersData: GqlPlayersQuery;
   gameId: string;
-  setGame: (gameId: string) => void;
+  setGameId: (gameId: string) => void;
 }
 
 export const SingleMatchForm: VFC<SingleMatchFormProps> = ({
   gamesData,
   playersData,
   gameId,
-  setGame,
+  setGameId,
 }) => {
   const [playerRanks, setPlayerRanks] = useState<Record<string, number>>({});
 
@@ -102,7 +102,7 @@ export const SingleMatchForm: VFC<SingleMatchFormProps> = ({
 
     setInitialData();
 
-    setGame(gamesData?.games[0]?.id || '');
+    setGameId(gamesData?.games[0]?.id || '');
 
     await apolloClient.refetchQueries({
       include: 'active',

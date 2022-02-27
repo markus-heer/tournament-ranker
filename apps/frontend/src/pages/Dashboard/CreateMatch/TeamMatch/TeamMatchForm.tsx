@@ -16,7 +16,7 @@ interface TeamMatchFormProps {
   gamesData: GqlGamesQuery;
   playersData: GqlPlayersQuery;
   gameId: string;
-  setGame: (gameId: string) => void;
+  setGameId: (gameId: string) => void;
 }
 
 type TeamsObject = Record<string, number>;
@@ -25,7 +25,7 @@ export const TeamMatchForm: VFC<TeamMatchFormProps> = ({
   gamesData,
   playersData,
   gameId,
-  setGame,
+  setGameId,
 }) => {
   const [playerTeams, setPlayerTeams] = useState<TeamsObject>({});
   const [teamRanks, setTeamRanks] = useState<RanksObject>({});
@@ -146,7 +146,7 @@ export const TeamMatchForm: VFC<TeamMatchFormProps> = ({
 
       setInitialData();
 
-      setGame(gamesData?.games[0]?.id || '');
+      setGameId(gamesData?.games[0]?.id || '');
 
       await apolloClient.refetchQueries({
         include: 'active',
