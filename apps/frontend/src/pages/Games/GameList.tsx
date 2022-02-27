@@ -13,6 +13,7 @@ import {
 
 import { useDeleteGameMutation } from '../../graphql/mutations/__generated__/deleteGame';
 import { useGamesQuery } from '../../graphql/queries/__generated__/games';
+import { GqlGameType } from '../../graphql/types';
 import { sortByName } from '../../helpers/sortByName';
 
 export const GameList = () => {
@@ -42,27 +43,33 @@ export const GameList = () => {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
+              <TableCell align="right">Typ</TableCell>
               <TableCell align="right">Aktion</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {[...(data?.games || [])].sort(sortByName).map(({ id, name, numberOfMatches }) => (
-              <TableRow key={id}>
-                <TableCell component="th" scope="row">
-                  {name}
-                </TableCell>
-                <TableCell align="right">
-                  <Button
-                    disabled={numberOfMatches !== 0}
-                    onClick={() => {
-                      confirmAndDeleteGame(id, name);
-                    }}
-                  >
-                    löschen
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            {[...(data?.games || [])]
+              .sort(sortByName)
+              .map(({ id, name, gameType, numberOfMatches }) => (
+                <TableRow key={id}>
+                  <TableCell component="th" scope="row">
+                    {name}
+                  </TableCell>
+                  <TableCell align="right">
+                    {gameType === GqlGameType.Single ? 'Single' : 'Team'}
+                  </TableCell>
+                  <TableCell align="right">
+                    <Button
+                      disabled={numberOfMatches !== 0}
+                      onClick={() => {
+                        confirmAndDeleteGame(id, name);
+                      }}
+                    >
+                      löschen
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
