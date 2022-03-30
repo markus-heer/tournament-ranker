@@ -8,7 +8,7 @@ export class GamesService {
   constructor(private prisma: PrismaService) {}
 
   async findAll(): Promise<Game[]> {
-    const games = await this.prisma.game.findMany();
+    const games = await this.prisma.game.findMany({ orderBy: { name: 'asc' } });
 
     return games.map((game) => new Game(game));
   }

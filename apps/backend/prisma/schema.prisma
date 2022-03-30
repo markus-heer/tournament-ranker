@@ -27,7 +27,7 @@ model Game {
   createdAt DateTime @default(now())
   id        String   @id @default(cuid())
 
-  name     String   @unique
+  name     String
   gameType GameType
 
   match Match[]
