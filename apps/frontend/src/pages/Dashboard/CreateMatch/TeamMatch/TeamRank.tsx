@@ -1,7 +1,8 @@
 import { Box, Paper, Typography } from '@mui/material';
-import { VFC } from 'react';
+import { useContext, VFC } from 'react';
 import { useDrop } from 'react-dnd';
 
+import { ColorModeContext } from '../../../../ColorModeWrapper';
 import { GqlFullPlayerFragment } from '../../../../graphql/fragments/__generated__/fullPlayer';
 import { PlayerTeam, Team } from '../Team';
 
@@ -37,9 +38,11 @@ export const TeamRank: VFC<TeamRankProps> = ({
     }),
   });
 
-  let backgroundColor = '#242424';
+  const { colorMode } = useContext(ColorModeContext);
+
+  let backgroundColor = colorMode === 'light' ? '#f5f5f5' : '#242424';
   if (isOver) {
-    backgroundColor = '#3a3a3a';
+    backgroundColor = colorMode === 'light' ? '#dddddd' : '#3a3a3a';
   }
 
   return (

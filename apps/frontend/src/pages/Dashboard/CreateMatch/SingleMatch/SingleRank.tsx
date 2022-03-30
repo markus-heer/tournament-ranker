@@ -1,7 +1,9 @@
 import { Paper, Typography } from '@mui/material';
+import { useContext } from 'react';
 import { VFC } from 'react';
 import { useDrop } from 'react-dnd';
 
+import { ColorModeContext } from '../../../../ColorModeWrapper';
 import { GqlFullPlayerFragment } from '../../../../graphql/fragments/__generated__/fullPlayer';
 import { Player } from '../Player';
 
@@ -21,10 +23,12 @@ export const SingleRank: VFC<RankProps> = ({ players, rank, onDrop }) => {
     }),
   });
 
+  const { colorMode } = useContext(ColorModeContext);
+
   const isActive = isOver;
-  let backgroundColor = '#242424';
+  let backgroundColor = colorMode === 'light' ? '#f5f5f5' : '#242424';
   if (isActive) {
-    backgroundColor = '#3a3a3a';
+    backgroundColor = colorMode === 'light' ? '#dddddd' : '#3a3a3a';
   }
 
   return (
