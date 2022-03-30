@@ -1,4 +1,4 @@
-import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness3Icon from '@mui/icons-material/Brightness3';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar as MuiAppBar, IconButton, styled, Toolbar, Typography } from '@mui/material';
@@ -67,7 +67,7 @@ export const TopBar: VFC<TopBarProps> = ({ toggleMenu, menuOpen, menuWidth }) =>
         </Typography>
 
         <IconButton color="inherit" onClick={toggleColorMode}>
-          {colorMode === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
+          {colorMode === 'light' ? <Brightness3Icon /> : <Brightness7Icon />}
         </IconButton>
       </Toolbar>
     </StyledAppBar>
