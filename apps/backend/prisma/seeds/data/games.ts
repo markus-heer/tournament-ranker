@@ -3,13 +3,13 @@ import { GameType, Prisma } from '@prisma/client';
 export const games: Prisma.GameCreateArgs[] = [
   {
     data: {
-      name: 'Wikingerschach',
-      gameType: GameType.TEAM,
+      name: '301 (Dart)',
+      gameType: GameType.SINGLE,
     },
   },
   {
     data: {
-      name: 'Dart 301',
+      name: 'Shanghai (Dart)',
       gameType: GameType.SINGLE,
     },
   },
@@ -63,7 +63,7 @@ export const games: Prisma.GameCreateArgs[] = [
   },
   {
     data: {
-      name: 'Reaktor',
+      name: 'Mucho Party',
       gameType: GameType.SINGLE,
     },
   },
