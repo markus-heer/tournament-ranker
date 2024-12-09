@@ -23,11 +23,11 @@ const darkTheme = createTheme({
 export const ColorModeContext = React.createContext({
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   toggleColorMode: () => {},
-  colorMode: 'light',
+  colorMode: 'dark',
 });
 
 const ColorModeWrapper: React.FC = ({ children }) => {
-  const [mode, setMode] = React.useState<'light' | 'dark'>('light');
+  const [mode, setMode] = React.useState<'light' | 'dark'>('dark');
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
