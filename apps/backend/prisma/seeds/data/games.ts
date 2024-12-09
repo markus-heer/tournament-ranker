@@ -3,13 +3,25 @@ import { GameType, Prisma } from '@prisma/client';
 export const games: Prisma.GameCreateArgs[] = [
   {
     data: {
-      name: '301 (Dart)',
+      name: 'Katzenquartett',
       gameType: GameType.SINGLE,
     },
   },
   {
     data: {
-      name: 'Shanghai (Dart)',
+      name: 'Super Six',
+      gameType: GameType.SINGLE,
+    },
+  },
+  {
+    data: {
+      name: 'Slingshot Hockey',
+      gameType: GameType.SINGLE,
+    },
+  },
+  {
+    data: {
+      name: 'Singstar',
       gameType: GameType.SINGLE,
     },
   },
@@ -27,55 +39,43 @@ export const games: Prisma.GameCreateArgs[] = [
   },
   {
     data: {
-      name: 'Tischtennis',
-      gameType: GameType.SINGLE,
-    },
-  },
-  {
-    data: {
-      name: 'Slingshot Hockey',
-      gameType: GameType.SINGLE,
-    },
-  },
-  {
-    data: {
-      name: 'Mario Party',
-      gameType: GameType.SINGLE,
-    },
-  },
-  {
-    data: {
-      name: 'Super Six',
-      gameType: GameType.SINGLE,
-    },
-  },
-  {
-    data: {
-      name: 'Katzenquartett',
-      gameType: GameType.SINGLE,
-    },
-  },
-  {
-    data: {
-      name: 'Unreal Tournament',
-      gameType: GameType.SINGLE,
-    },
-  },
-  {
-    data: {
-      name: 'Mucho Party',
-      gameType: GameType.SINGLE,
-    },
-  },
-  {
-    data: {
       name: 'Cornhole',
       gameType: GameType.SINGLE,
     },
   },
   {
     data: {
-      name: 'Cornhole',
+      name: '301 (Dart)',
+      gameType: GameType.SINGLE,
+    },
+  },
+  {
+    data: {
+      name: 'Black Jack',
+      gameType: GameType.SINGLE,
+    },
+  },
+  {
+    data: {
+      name: 'Hüpf mein Hütchen',
+      gameType: GameType.SINGLE,
+    },
+  },
+  {
+    data: {
+      name: 'Bezzerwizzer',
+      gameType: GameType.SINGLE,
+    },
+  },
+  {
+    data: {
+      name: 'Eigene Challenge',
+      gameType: GameType.SINGLE,
+    },
+  },
+  {
+    data: {
+      name: 'Eigene Challenge',
       gameType: GameType.TEAM,
     },
   },

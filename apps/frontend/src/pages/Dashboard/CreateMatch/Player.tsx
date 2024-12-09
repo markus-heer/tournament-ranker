@@ -17,7 +17,7 @@ export const Player: VFC<Pick<GqlFullPlayerFragment, 'id' | 'name'>> = ({ id, na
     <Chip
       ref={drag}
       label={name}
-      avatar={<Avatar src={`https://avatars.dicebear.com/api/bottts/${name}.svg`} />}
+      avatar={<Avatar src={`https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=${name}`} />}
       sx={{ cursor: 'grab' }}
     ></Chip>
   );

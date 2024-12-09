@@ -1,16 +1,23 @@
 import { Prisma } from '@prisma/client';
 
 export const players: Prisma.PlayerCreateArgs[] = [
-  'Basti',
-  'Peter',
-  'Oli',
-  'Bobo',
-  'Andi',
   'Markus',
-  'Simon',
-  'Marco',
-  'Uli',
+  'Angelos',
+  'Basti',
+  'Bryan',
+  'Carla',
+  'Eliza',
+  'Jakob',
   'Max',
+  'Paul',
+  'Gonzo',
+  'Prakriti',
+  'Richard',
+  'Simon',
+  'Sauti',
+  'Tobi',
+  'Ulrich',
+  'Zarah',
 ].map((name) => ({
   data: {
     id: name,
