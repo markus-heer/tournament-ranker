@@ -57,12 +57,6 @@ export const games: Prisma.GameCreateArgs[] = [
   },
   {
     data: {
-      name: 'Hüpf mein Hütchen',
-      gameType: GameType.SINGLE,
-    },
-  },
-  {
-    data: {
       name: 'Bezzerwizzer',
       gameType: GameType.SINGLE,
     },
